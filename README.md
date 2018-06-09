@@ -11,7 +11,7 @@ Starter PWA app
 	npm init stencil "project name" --app
 ```
 
-=====
+## Licence: MIT
 
 Created by William M. Riley:
 * [Twitter](https://twitter.com/splitinfinities)
