@@ -1,22 +1,37 @@
-# Create a new Stencil Component Starter:
-npm init stencil "project name"
+# Create Stencil:
 
+## Usage
 
-## Options:
+### Interactive mode
 
-##### --app
-Starter PWA app
-
-*Usage*:
-```bash
-	npm init stencil "project name" --app
 ```
+npm init stencil
+```
+
+### Command mode
+
+```
+npm init stencil <starter> <projectName>
+```
+
+Example:
+
+```
+npm init stencil app my-stencil-app
+```
+
+## Built-in starters
+
+- [app](https://github.com/ionic-team/stencil-app-starter)
+- [components](https://github.com/ionic-team/stencil-component-starter)
+- [ionic-pwa](https://github.com/ionic-team/ionic-pwa-toolkit)
 
 ## Developing locally
 If you want to add features, check this repo out, open terminal, and go to the directory, then:
 
 ```bash
-	npx ./createStencilApp.js "testing"
+npm run build
+npx ./dist/createStencilApp.js
 ```
 
 And it will help you test out your changes in this directory. Don't commit those files! :)
