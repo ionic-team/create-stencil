@@ -135,12 +135,12 @@ async function createStencilApp(repo: string, projectName: string) {
 function cloneApp(repo: string, projectName: string) {
   return new Promise((resolve, reject) => {
     try {
-      console.log(`\n💎  Cloning ${repo}`);
+      console.log(`\n💎  Cloning ${repo}...`);
       exec(`git clone https://github.com/${repo} "${projectName}" --branch master --single-branch --depth 1`, (error, stdout, stderr) => {
         if (error) {
           reject(`⚠️  Couldn't check out "${projectName}"`);
         } else {
-          resolve(true);
+          resolve();
         }
       });
     } catch (e) {
