@@ -18,9 +18,10 @@ const STARTERS = [
 ];
 
 function getChoices() {
+  const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 2;
   return [
     ...STARTERS.map(s => ({
-        title: `💎   ${s.name}`,
+        title: `💎  ${s.name.padEnd(maxLength)} (${s.repo})`,
         value: s.repo
       })),
     { title: 'Other', value: null }
