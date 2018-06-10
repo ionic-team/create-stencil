@@ -2,27 +2,34 @@ import { exec } from 'child_process';
 // @ts-ignore
 import prompts from 'prompts';
 
-const STARTERS = [
+
+const STARTERS: Starter[] = [
   {
     name: 'components',
-    repo: 'ionic-team/stencil-component-starter'
+    repo: 'ionic-team/stencil-component-starter',
+    description: 'Collection of web components that can be used anywhere',
+    docs: 'https://github.com/ionic-team/stencil-component-starter'
   },
   {
     name: 'app',
-    repo: 'ionic-team/stencil-app-starter'
+    repo: 'ionic-team/stencil-app-starter',
+    description: 'Minimal starter for building an stencil app or website',
+    docs: 'https://github.com/ionic-team/stencil-app-starter'
   },
   {
     name: 'ionic-pwa',
-    repo: 'ionic-team/ionic-pwa-toolkit'
+    repo: 'ionic-team/ionic-pwa-toolkit',
+    description: 'Everything you need to build fast, production ready PWAs',
+    docs: 'https://stenciljs.com/pwa/'
   }
 ];
 
 function getChoices() {
-  const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 2;
+  const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
   return [
     ...STARTERS.map(s => ({
-        title: `💎  ${s.name.padEnd(maxLength)} (${s.repo})`,
-        value: s.repo
+        title: `💎  ${s.name.padEnd(maxLength)} (${s.description})`,
+        value: s.name
       })),
     { title: 'Other', value: null }
   ];
@@ -75,8 +82,8 @@ async function runInteractive() {
     throw new Error(`No project name was provided, try again.`);
   }
 
-
-  console.log(`\nWe are about to clone "${starterName}" into "./${projectName}"`);
+  const repo = getStarterRepo(starterName);
+  console.log(`\nWe are about to clone "${repo}" into "./${projectName}"`);
   const { confirm } = await prompts([{
     type: 'confirm',
     name: 'confirm',
@@ -103,24 +110,15 @@ Usage:
 `);
   }
 
+  const docs = getDocsRepo(starterName);
   const repo = getStarterRepo(starterName);
   if (!repo) {
     throw new Error(`starter ${starterName} does not exist`);
   }
 
-  await createStencilApp(repo, projectName);
+  await createStencilApp(repo, projectName, docs);
 }
-
-function getStarterRepo(starterName: string) {
-  if (starterName.includes('/')) {
-    return starterName;
-  }
-  const repo = STARTERS.find(starter => starter.name === starterName);
-  return repo ? repo.repo : undefined;
-}
-
-
-async function createStencilApp(repo: string, projectName: string) {
+async function createStencilApp(repo: string, projectName: string, docs: string | undefined) {
   await cloneApp(repo, projectName);
   await cdIntoNewApp(projectName);
   await removeOrigin();
@@ -131,6 +129,10 @@ async function createStencilApp(repo: string, projectName: string) {
 \tcd ./${projectName}
 \tnpm start
 `);
+
+  if (docs) {
+    console.log(`Check out the docs: ${docs}\n`);
+  }
 }
 
 function cloneApp(repo: string, projectName: string) {
@@ -176,4 +178,25 @@ function installPackages() {
   });
 }
 
+function getStarterRepo(starterName: string) {
+  if (starterName.includes('/')) {
+    return starterName;
+  }
+  const repo = STARTERS.find(starter => starter.name === starterName);
+  return repo ? repo.repo : undefined;
+}
+
+function getDocsRepo(starterName: string) {
+  const repo = STARTERS.find(starter => starter.name === starterName);
+  return repo ? repo.docs : undefined;
+}
+
 run();
+
+
+interface Starter {
+  name: string;
+  repo: string;
+  description: string;
+  docs: string;
+}
