@@ -31,7 +31,7 @@ function getChoices() {
         title: `💎  ${s.name.padEnd(maxLength)} (${s.description})`,
         value: s.name
       })),
-    { title: 'Other', value: null }
+    { title: 'Other (specify)', value: null }
   ];
 }
 
