@@ -124,7 +124,7 @@ async function createStencilApp(repo: string, projectName: string, docs: string 
   await removeOrigin();
   await installPackages();
   console.log(`
-🎉  All done!
+ 🎉  All done!
 
 \tcd ./${projectName}
 \tnpm start
@@ -138,7 +138,7 @@ async function createStencilApp(repo: string, projectName: string, docs: string 
 function cloneApp(repo: string, projectName: string) {
   return new Promise((resolve, reject) => {
     try {
-      console.log(`\n💎  Cloning ${repo}...`);
+      console.log(`\n 💎  Cloning ${repo}...`);
       exec(`git clone https://github.com/${repo} "${projectName}" --branch master --single-branch --depth 1`, (error, stdout, stderr) => {
         if (error) {
           reject(`⚠️  Couldn't check out "${projectName}"`);
@@ -154,7 +154,7 @@ function cloneApp(repo: string, projectName: string) {
 
 function cdIntoNewApp(projectName: string) {
   return new Promise((resolve) => {
-    console.log('🏃‍  Changing Directories...');
+    console.log(' 🏃‍  Changing directories...');
     process.chdir(`${projectName}`);
     resolve();
   });
@@ -162,8 +162,8 @@ function cdIntoNewApp(projectName: string) {
 
 function removeOrigin() {
   return new Promise((resolve) => {
-    console.log('✂️  Removing remotes in Git...');
-    exec(`git remote rm origin`, () => {
+    console.log(' ✂️  Preparing repo...');
+    exec(`rm -rf .git`, () => {
       resolve();
     });
   });
@@ -171,7 +171,7 @@ function removeOrigin() {
 
 function installPackages() {
   return new Promise((resolve) => {
-    console.log('📦  Installing packages...');
+    console.log(' 📦  Installing packages...');
     exec(`npm ci`, () => {
       resolve();
     });
