@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2017",
-    "module":"es2015",
+    "target": "es2015",
+    "module": "es2015",
     "strict": true,
     "noEmitOnError": false,
     "sourceMap": false,
@@ -10,9 +10,9 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "dist/src",
+    "outDir": "dist/src"
   },
-  "include": [
-    "src"
+  "files": [
+    "src/index.ts"
   ]
 }

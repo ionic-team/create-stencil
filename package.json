@@ -1,22 +1,22 @@
 {
   "name": "create-stencil",
   "version": "1.2.3",
-  "description": "Helps create a new stencil application",
-  "main": "dist/createStencilApp.js",
+  "description": "Quickly create a new stencil application: npm init stencil",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node dist/createStencilApp.js",
+    "start": "node dist/index.js",
     "build.tsc": "tsc",
     "build.bundle": "rollup -c",
-    "minify": "uglifyjs --compress --mangle --output dist/createStencilApp.js -- dist/createStencilApp.js",
+    "minify": "uglifyjs --compress --mangle --output dist/index.js -- dist/index.js",
     "build": "npm run build.tsc && npm run build.bundle && npm run minify",
     "version": "npm build",
     "release": "np"
   },
   "files": [
-    "dist/createStencilApp.js"
+    "dist/index.js"
   ],
   "bin": {
-    "create-stencil": "dist/createStencilApp.js"
+    "create-stencil": "dist/index.js"
   },
   "devDependencies": {
     "@types/node": "^10.3.2",

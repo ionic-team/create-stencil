@@ -27,20 +27,19 @@ npm init stencil app my-stencil-app
 - [ionic-pwa](https://github.com/ionic-team/ionic-pwa-toolkit)
 
 ## Developing locally
-If you want to add features, check this repo out, open terminal, and go to the directory, then:
+
+If you want to add features, clone this repo, open terminal, then:
 
 ```bash
 npm run build
-npx ./dist/createStencilApp.js
+npx ./dist/index.js
 ```
 
 And it will help you test out your changes in this directory. Don't commit those files! :)
 
 
-## Licence: MIT
-
-
 ## Citations
+
 Created by William M. Riley:
 * [Twitter](https://twitter.com/splitinfinities)
 * [Github](https://github.com/splitinfinities)
@@ -48,8 +47,12 @@ Created by William M. Riley:
 
 ## Related
 
- - [Stencil Documentation](https://stenciljs.com/)
- - [Stencil Worldwide Slack](https://stencil-worldwide.slack.com)
- - [Ionic](https://ionicframework.com/)
- - [Ionic Worldwide Slack](http://ionicworldwide.herokuapp.com/)
- - [Ionicons](http://ionicons.com/)
+* [Stencil Documentation](https://stenciljs.com/)
+* [Stencil Worldwide Slack](https://stencil-worldwide.slack.com)
+* [Ionic](https://ionicframework.com/)
+* [Ionic Worldwide Slack](http://ionicworldwide.herokuapp.com/)
+* [Ionicons](http://ionicons.com/)
+
+
+## License
+* MIT
