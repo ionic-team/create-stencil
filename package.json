@@ -31,5 +31,13 @@
     "uglify-es": "^3.3.9"
   },
   "author": "Ionic Team & William M. Riley",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "stencil",
+    "stenciljs",
+    "web components",
+    "pwa",
+    "progress web app",
+    "ionic"
+  ]
 }
