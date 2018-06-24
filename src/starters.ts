@@ -10,7 +10,7 @@ export const STARTERS: Starter[] = [
   {
     name: 'app',
     repo: 'ionic-team/stencil-app-starter',
-    description: 'Minimal starter for building an stencil app or website',
+    description: 'Minimal starter for building a Stencil app or website',
     docs: 'https://github.com/ionic-team/stencil-app-starter'
   },
   {
