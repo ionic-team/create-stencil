@@ -3,18 +3,9 @@ import { getDocsRepo, getStarterRepo } from './starters';
 
 
 export async function runFlags(
-  starterName: string | undefined,
-  projectName: string | undefined
+  starterName: string,
+  projectName: string
 ) {
-  if (!starterName || !projectName) {
-    throw new Error(`Missing project-name
-
-Usage:
-
-  npm init stencil <starter> <project-name>
-`);
-  }
-
   const docs = getDocsRepo(starterName);
   const repo = getStarterRepo(starterName);
 

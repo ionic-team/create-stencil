@@ -5,11 +5,27 @@ import { runFlags } from './flags';
 import { STARTERS, getStarterRepo } from './starters';
 
 
-export async function runInteractive() {
+export async function runInteractive(starter?: string) {
   console.log('👋  Welcome to Stencil Create App!\n');
-  console.log('   What kind of project do you want to create? \n');
+  const starterName = starter || await askStarter();
+  const repo = getStarterRepo(starterName);
+  if (!repo) {
+    throw new Error(`Starter "${starterName}" does not exist.`);
+  }
 
-  const questions = [
+  const projectName = await askProjectName();
+
+  const confirm = await askConfirm(repo, projectName);
+  if (confirm) {
+    await runFlags(starterName, projectName);
+  } else {
+    console.log('\n aborting, bye bye \n');
+  }
+}
+
+async function askStarter() {
+  console.log('   What kind of project do you want to create? \n');
+  const { starterName } = await prompts([
     {
       type: 'select',
       name: 'starterName',
@@ -20,37 +36,13 @@ export async function runInteractive() {
       type: (prev: any) => prev === null ? 'text' : null,
       name: 'starterName',
       message: 'Type a custom starter',
-    },
-    {
-      type: (prev: any) => prev ? 'text' : null,
-      name: 'projectName',
-      message: 'Project name',
     }
-  ];
-
-  const { starterName, projectName } = await prompts(questions);
+  ]);
   if (!starterName) {
     throw new Error(`No starter was provided, try again.`);
   }
-  if (!projectName) {
-    throw new Error(`No project name was provided, try again.`);
-  }
-
-  const repo = getStarterRepo(starterName);
-  console.log(`\nWe are about to clone "${repo}" into "./${projectName}"`);
-  const { confirm } = await prompts([{
-    type: 'confirm',
-    name: 'confirm',
-    message: 'Confirm?'
-  }]);
-
-  if (confirm) {
-    await runFlags(starterName, projectName);
-  } else {
-    console.log('\n aborting, bye bye \n');
-  }
+  return starterName;
 }
-
 
 function getChoices() {
   const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
@@ -63,6 +55,27 @@ function getChoices() {
   ];
 }
 
+async function askProjectName() {
+  const { projectName } = await prompts([{
+    type: 'text',
+    name: 'projectName',
+    message: 'Project name',
+  }]);
+  if (!projectName) {
+    throw new Error(`No project name was provided, try again.`);
+  }
+  return projectName;
+}
+
+async function askConfirm(repo: string, projectName: string) {
+  console.log(`\nWe are about to clone "${repo}" into "./${projectName}"`);
+  const { confirm } = await prompts([{
+    type: 'confirm',
+    name: 'confirm',
+    message: 'Confirm?'
+  }]);
+  return confirm;
+}
 
 function padEnd(str: string, targetLength: number, padString = ' ') {
   targetLength = targetLength >> 0;
