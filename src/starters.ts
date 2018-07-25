@@ -1,4 +1,10 @@
 
+export interface Starter {
+  name: string;
+  repo: string;
+  description?: string;
+  docs?: string;
+}
 
 export const STARTERS: Starter[] = [
   {
@@ -22,24 +28,17 @@ export const STARTERS: Starter[] = [
 ];
 
 
-export function getStarterRepo(starterName: string) {
+export function getStarterRepo(starterName: string): Starter {
   if (starterName.includes('/')) {
-    return starterName;
+    return {
+      name: starterName,
+      repo: starterName,
+    };
   }
   const repo = STARTERS.find(starter => starter.name === starterName);
-  return repo ? repo.repo : undefined;
+  if (!repo) {
+    throw new Error(`Starter "${starterName}" does not exist.`);
+  }
+  return repo;
 }
 
-
-export function getDocsRepo(starterName: string) {
-  const repo = STARTERS.find(starter => starter.name === starterName);
-  return repo ? repo.docs : undefined;
-}
-
-
-interface Starter {
-  name: string;
-  repo: string;
-  description: string;
-  docs: string;
-}

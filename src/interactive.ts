@@ -1,29 +1,31 @@
 // @ts-ignore
 import prompts from 'prompts';
 import { createApp } from './create-app';
-import { runFlags } from './flags';
-import { STARTERS, getStarterRepo } from './starters';
+import { STARTERS, Starter, getStarterRepo } from './starters';
 
 
-export async function runInteractive(starter?: string) {
+export async function runInteractive(starterName?: string) {
   console.log('👋  Welcome to Stencil Create App!\n');
-  const starterName = starter || await askStarter();
-  const repo = getStarterRepo(starterName);
-  if (!repo) {
-    throw new Error(`Starter "${starterName}" does not exist.`);
-  }
 
+  // Get starter's repo
+  if (!starterName) {
+    starterName = await askStarterName();
+  }
+  const starter = getStarterRepo(starterName);
+
+  // Get project name
   const projectName = await askProjectName();
 
-  const confirm = await askConfirm(repo, projectName);
+  // Ask for confirmation
+  const confirm = await askConfirm(starter, projectName);
   if (confirm) {
-    await runFlags(starterName, projectName);
+    await createApp(starter, projectName);
   } else {
     console.log('\n aborting, bye bye \n');
   }
 }
 
-async function askStarter() {
+async function askStarterName(): Promise<string> {
   console.log('   What kind of project do you want to create? \n');
   const { starterName } = await prompts([
     {
@@ -67,8 +69,8 @@ async function askProjectName() {
   return projectName;
 }
 
-async function askConfirm(repo: string, projectName: string) {
-  console.log(`\nWe are about to clone "${repo}" into "./${projectName}"`);
+async function askConfirm(starter: Starter, projectName: string) {
+  console.log(`\nWe are about to clone "${starter.repo}" into "./${projectName}"`);
   const { confirm } = await prompts([{
     type: 'confirm',
     name: 'confirm',

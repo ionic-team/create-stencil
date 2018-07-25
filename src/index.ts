@@ -1,25 +1,35 @@
-import { runFlags } from './flags';
+import { createApp } from './create-app';
 import { runInteractive } from './interactive';
+import { getStarterRepo } from './starters';
 
+const USAGE_DOCS = `Usage:
+
+npm init stencil [starter] [project-name]
+`;
 
 async function run() {
   const args = process.argv.slice(2);
 
+  if (args.indexOf('--help') >= 0) {
+    console.log(USAGE_DOCS);
+    return 0;
+  }
   try {
-    if (args.length > 2 || args[0] === '--help') {
-      throw new Error(`Usage:
+    if (args.length === 2) {
+      await createApp(
+        getStarterRepo(args[0]),
+        args[1]
+      );
 
-    npm init stencil [starter] [project-name]
-    `);
-    }
-    const interactive = args.length < 2;
-    if (interactive) {
+    } else if (args.length < 2) {
       await runInteractive(args[0]);
+
     } else {
-      await runFlags(args[0], args[1]);
+      throw new Error(USAGE_DOCS);
     }
   } catch (e) {
     console.error(`\n❌  ${e.message}\n`);
+    return -1;
   }
 }
 

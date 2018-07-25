@@ -1,8 +1,13 @@
 import { exec } from 'child_process';
+import { existsSync } from 'fs';
+import { Starter } from './starters';
 
+export async function createApp(starter: Starter, projectName: string) {
+  if (existsSync(projectName)) {
+    throw new Error(`Folder "./${projectName}" already exists, please choose a different project name.`);
+  }
 
-export async function createApp(repo: string, projectName: string, docs: string | undefined) {
-  await cloneApp(repo, projectName);
+  await cloneApp(starter.repo, projectName);
   await cdIntoNewApp(projectName);
   await removeOrigin();
   await installPackages();
@@ -13,8 +18,8 @@ export async function createApp(repo: string, projectName: string, docs: string 
 \tnpm start
 `);
 
-  if (docs) {
-    console.log(`Check out the docs: ${docs}\n`);
+  if (starter.docs) {
+    console.log(`Check out the docs: ${starter.docs}\n`);
   }
 }
 
