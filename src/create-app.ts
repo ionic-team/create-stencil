@@ -28,7 +28,7 @@ function cloneApp(repo: string, projectName: string) {
   return new Promise((resolve, reject) => {
     try {
       console.log(`\n 💎  Cloning ${repo}...`);
-      exec(`git clone https://github.com/${repo} "${projectName}" --branch master --single-branch --depth 1`, (error, stdout, stderr) => {
+      exec(`git clone "https://github.com/${repo}" "${projectName}" --branch master --single-branch --depth 1`, (error, stdout, stderr) => {
         if (error) {
           reject(`⚠️  Couldn't check out "${projectName}"`);
         } else {
@@ -51,7 +51,7 @@ function cdIntoNewApp(projectName: string) {
 
 function removeOrigin() {
   return new Promise((resolve) => {
-    console.log(' ✂️  Preparing repo...');
+    console.log(' 🔨  Preparing repo...');
     exec(`rm -rf .git`, () => {
       resolve();
     });
