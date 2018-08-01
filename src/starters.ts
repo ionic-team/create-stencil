@@ -8,7 +8,7 @@ export interface Starter {
 
 export const STARTERS: Starter[] = [
   {
-    name: 'components',
+    name: 'component',
     repo: 'ionic-team/stencil-component-starter',
     description: 'Collection of web components that can be used anywhere',
     docs: 'https://github.com/ionic-team/stencil-component-starter'
