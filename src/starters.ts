@@ -4,6 +4,7 @@ export interface Starter {
   repo: string;
   description?: string;
   docs?: string;
+  hidden?: boolean;
 }
 
 export const STARTERS: Starter[] = [
@@ -12,6 +13,13 @@ export const STARTERS: Starter[] = [
     repo: 'ionic-team/stencil-component-starter',
     description: 'Collection of web components that can be used anywhere',
     docs: 'https://github.com/ionic-team/stencil-component-starter'
+  },
+  {
+    name: 'components',
+    repo: 'ionic-team/stencil-component-starter',
+    description: 'Collection of web components that can be used anywhere',
+    docs: 'https://github.com/ionic-team/stencil-component-starter',
+    hidden: true
   },
   {
     name: 'app',

@@ -49,7 +49,9 @@ async function askStarterName(): Promise<string> {
 function getChoices() {
   const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
   return [
-    ...STARTERS.map(s => ({
+    ...STARTERS
+      .filter(s => s.hidden !== true)
+      .map(s => ({
         title: `💎  ${padEnd(s.name, maxLength)} (${s.description})`,
         value: s.name
       })),
