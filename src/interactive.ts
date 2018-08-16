@@ -1,17 +1,18 @@
 // @ts-ignore
 import prompts from 'prompts';
-import { createApp } from './create-app';
+import tc from 'turbocolor';
+import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 
-
-export async function runInteractive(starterName?: string) {
-  console.log('👋  Welcome to Stencil Create App!\n');
-
+export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   // Get starter's repo
   if (!starterName) {
     starterName = await askStarterName();
   }
   const starter = getStarterRepo(starterName);
+
+  // start downloading in the background
+  prepareStarter(starter);
 
   // Get project name
   const projectName = await askProjectName();
@@ -19,14 +20,11 @@ export async function runInteractive(starterName?: string) {
   // Ask for confirmation
   const confirm = await askConfirm(starter, projectName);
   if (confirm) {
-    await createApp(starter, projectName);
-  } else {
-    console.log('\n aborting, bye bye \n');
+    await createApp(starter, projectName, autoRun);
   }
 }
 
 async function askStarterName(): Promise<string> {
-  console.log('   What kind of project do you want to create? \n');
   const { starterName } = await prompts([
     {
       type: 'select',
@@ -51,11 +49,13 @@ function getChoices() {
   return [
     ...STARTERS
       .filter(s => s.hidden !== true)
-      .map(s => ({
-        title: `💎  ${padEnd(s.name, maxLength)} (${s.description})`,
-        value: s.name
-      })),
-    { title: 'Other (specify)', value: null }
+      .map(s => {
+        const description = s.description ? tc.dim(s.description) : '';
+        return {
+          title: `${padEnd(s.name, maxLength)} ${description}`,
+          value: s.name
+        };
+      })
   ];
 }
 
@@ -72,7 +72,6 @@ async function askProjectName() {
 }
 
 async function askConfirm(starter: Starter, projectName: string) {
-  console.log(`\nWe are about to clone "${starter.repo}" into "./${projectName}"`);
   const { confirm } = await prompts([{
     type: 'confirm',
     name: 'confirm',

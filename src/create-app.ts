@@ -1,68 +1,111 @@
-import { exec } from 'child_process';
-import { existsSync } from 'fs';
+import { exec, spawn } from 'child_process';
+import { Spinner } from 'cli-spinner';
+import fs from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import tc from 'turbocolor';
+import { downloadStarter } from './download';
 import { Starter } from './starters';
+import { unZipBuffer } from './unzip';
 
-export async function createApp(starter: Starter, projectName: string) {
-  if (existsSync(projectName)) {
+export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
+  if (fs.existsSync(projectName)) {
     throw new Error(`Folder "./${projectName}" already exists, please choose a different project name.`);
   }
 
-  await cloneApp(starter.repo, projectName);
-  await cdIntoNewApp(projectName);
-  await removeOrigin();
-  await installPackages();
-  console.log(`
- 🎉  All done!
+  // Line break
+  console.log('');
 
-\tcd ./${projectName}
-\tnpm start
+  const loading = new Spinner(tc.bold('Preparing starter'));
+  loading.setSpinnerString(18);
+  loading.start();
+  const moveTo = await prepareStarter(starter);
+  moveTo(projectName);
+  loading.stop();
+
+  const docs = starter.docs ? `Check out the docs: ${tc.underline(starter.docs)}\n` : '';
+
+  console.log(`\n\n\n  ${tc.bold('All setup!')} 🎊 🎉
+  ${docs}
+  ${tc.dim('$')}  ${tc.green(`cd ./${projectName}`)}
+  ${tc.dim('$')}  ${tc.green('npm start')}
 `);
 
-  if (starter.docs) {
-    console.log(`Check out the docs: ${starter.docs}\n`);
+  if (autoRun) {
+    await runStart(projectName);
   }
 }
 
+const starterCache = new Map<Starter, Promise<(name: string) => void>>();
 
-function cloneApp(repo: string, projectName: string) {
-  return new Promise((resolve, reject) => {
-    try {
-      console.log(`\n 💎  Cloning ${repo}...`);
-      exec(`git clone "https://github.com/${repo}" "${projectName}" --branch master --single-branch --depth 1`, (error, stdout, stderr) => {
-        if (error) {
-          reject(`⚠️  Couldn't check out "${projectName}"`);
-        } else {
-          resolve();
-        }
-      });
-    } catch (e) {
-      reject(`⚠️  Couldn't check out Stencil ${repo} into "${projectName}"`);
-    }
-  });
+export function prepareStarter(starter: Starter) {
+  let promise = starterCache.get(starter);
+  if (!promise) {
+    promise = prepare(starter);
+    starterCache.set(starter, promise);
+  }
+  return promise;
 }
 
-function cdIntoNewApp(projectName: string) {
+async function prepare(starter: Starter) {
+  const buffer = await downloadStarter(starter);
+  const tmpPath = join(tmpdir(), `stencil-starter-${Date.now()}`);
+  const baseDir = process.cwd();
+  const onExit = () => {
+    rimraf(tmpPath);
+    process.exit();
+  };
+  process.on('uncaughtException', onExit);
+  process.on('exit', onExit);
+  process.on('SIGINT', onExit);
+  process.on('SIGTERM', onExit);
+
+  await unZipBuffer(buffer, tmpPath);
+  await installPackages(tmpPath);
+
+  return (projectName: string) => {
+    fs.renameSync(tmpPath, join(baseDir, projectName));
+  };
+}
+
+function cd(path: string) {
   return new Promise((resolve) => {
-    console.log(' 🏃‍  Changing directories...');
-    process.chdir(`${projectName}`);
+    process.chdir(path);
     resolve();
   });
 }
 
-function removeOrigin() {
-  return new Promise((resolve) => {
-    console.log(' 🔨  Preparing repo...');
-    exec(`rm -rf .git`, () => {
-      resolve();
+function installPackages(projectPath: string) {
+  return new Promise((resolve, reject) => {
+    const p = spawn('npm', ['ci'], {
+      stdio: 'ignore',
+      cwd: projectPath
     });
+    p.once('exit', () => resolve());
+    p.once('error', reject);
   });
 }
 
-function installPackages() {
+function runStart(projectPath: string) {
   return new Promise((resolve) => {
-    console.log(' 📦  Installing packages...');
-    exec(`npm ci`, () => {
-      resolve();
+    const p = spawn('npm', ['start'], {
+      stdio: 'inherit',
+      cwd: projectPath
     });
+    p.once('exit', () => resolve());
   });
+}
+
+function rimraf(dir_path: string) {
+  if (fs.existsSync(dir_path)) {
+    fs.readdirSync(dir_path).forEach((entry) => {
+      const entry_path = join(dir_path, entry);
+      if (fs.lstatSync(entry_path).isDirectory()) {
+        rimraf(entry_path);
+      } else {
+        fs.unlinkSync(entry_path);
+      }
+    });
+    fs.rmdirSync(dir_path);
+  }
 }

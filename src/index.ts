@@ -1,3 +1,4 @@
+import tc from 'turbocolor';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
@@ -8,9 +9,14 @@ npm init stencil [starter] [project-name]
 `;
 
 async function run() {
-  const args = process.argv.slice(2);
+  let args = process.argv.slice(2);
 
-  if (args.indexOf('--help') >= 0) {
+  const autoRun = args.indexOf('--run') >= 0;
+  const help = args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0;
+
+  args = args.filter(a => a[0] !== '-');
+
+  if (help) {
     console.log(USAGE_DOCS);
     return 0;
   }
@@ -18,18 +24,19 @@ async function run() {
     if (args.length === 2) {
       await createApp(
         getStarterRepo(args[0]),
-        args[1]
+        args[1],
+        autoRun
       );
 
     } else if (args.length < 2) {
-      await runInteractive(args[0]);
+      await runInteractive(args[0], autoRun);
 
     } else {
       throw new Error(USAGE_DOCS);
     }
   } catch (e) {
-    console.error(`\n❌  ${e.message}\n`);
-    return -1;
+    console.error(`\n${tc.red('✖')} ${e.message}\n`);
+    process.exit(-1);
   }
 }
 
