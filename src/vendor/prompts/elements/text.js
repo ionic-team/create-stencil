@@ -121,8 +121,8 @@ export class TextPrompt extends Prompt {
     const prompt = [
       style.symbol(this.done, this.aborted),
       color.bold(this.msg),
-      style.delimiter(this.done),
-      this.rendered
+      style.delimiter(false),
+      this.done ? color.green(this.rendered) : this.rendered
     ].join(' ');
 
     this.out.write(this.clear + prompt);

@@ -1,3 +1,4 @@
+// @ts-ignore
 import tc from 'turbocolor';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';

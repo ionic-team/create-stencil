@@ -9,6 +9,18 @@ export interface Starter {
 
 export const STARTERS: Starter[] = [
   {
+    name: 'ionic-pwa',
+    repo: 'ionic-team/ionic-pwa-toolkit',
+    description: 'Everything you need to build fast, production ready PWAs',
+    docs: 'https://beta.ionicframework.com'
+  },
+  {
+    name: 'app',
+    repo: 'ionic-team/stencil-app-starter',
+    description: 'Minimal starter for building a Stencil app or website',
+    docs: 'https://github.com/ionic-team/stencil-app-starter'
+  },
+  {
     name: 'component',
     repo: 'ionic-team/stencil-component-starter',
     description: 'Collection of web components that can be used anywhere',
@@ -20,18 +32,6 @@ export const STARTERS: Starter[] = [
     description: 'Collection of web components that can be used anywhere',
     docs: 'https://github.com/ionic-team/stencil-component-starter',
     hidden: true
-  },
-  {
-    name: 'app',
-    repo: 'ionic-team/stencil-app-starter',
-    description: 'Minimal starter for building a Stencil app or website',
-    docs: 'https://github.com/ionic-team/stencil-app-starter'
-  },
-  {
-    name: 'ionic-pwa',
-    repo: 'ionic-team/ionic-pwa-toolkit',
-    description: 'Everything you need to build fast, production ready PWAs',
-    docs: 'https://stenciljs.com/pwa/'
   }
 ];
 

@@ -1,9 +1,14 @@
+// @ts-ignore
+import { cursor, erase } from 'sisteransi';
 import tc from 'turbocolor';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 import { prompt } from './vendor/prompts';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
+  process.stdout.write(erase.screen);
+  process.stdout.write(cursor.to(0, 1));
+
   // Get starter's repo
   if (!starterName) {
     starterName = await askStarterName();
@@ -20,6 +25,8 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
   const confirm = await askConfirm(starter, projectName);
   if (confirm) {
     await createApp(starter, projectName, autoRun);
+  } else {
+    console.log('\n  aborting...');
   }
 }
 
@@ -51,7 +58,7 @@ function getChoices() {
       .map(s => {
         const description = s.description ? tc.dim(s.description) : '';
         return {
-          title: `${padEnd(s.name, maxLength)} ${description}`,
+          title: `${padEnd(s.name, maxLength)}   ${description}`,
           value: s.name
         };
       })

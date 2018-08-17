@@ -13,27 +13,37 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
     throw new Error(`Folder "./${projectName}" already exists, please choose a different project name.`);
   }
 
-  // Line break
-  console.log('');
-
   const loading = new Spinner(tc.bold('Preparing starter'));
   loading.setSpinnerString(18);
   loading.start();
+
+  const startT = Date.now();
   const moveTo = await prepareStarter(starter);
   moveTo(projectName);
-  loading.stop();
+  loading.stop(true);
 
-  const docs = starter.docs ? `Check out the docs: ${tc.underline(starter.docs)}\n` : '';
+  const time = printDuration(Date.now() - startT);
+  console.log(`${tc.green('✔')} ${tc.bold('All setup')} ${onlyUnix('🎉')} ${tc.dim(time)}
 
-  console.log(`\n\n\n  ${tc.bold('All setup!')} 🎊 🎉
-  ${docs}
-  ${tc.dim('$')}  ${tc.green(`cd ./${projectName}`)}
-  ${tc.dim('$')}  ${tc.green('npm start')}
+  ${tc.dim('Next steps:')}
+   ${tc.dim(terminalPrompt())} ${tc.green(`cd ${projectName}`)}
+   ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
+${renderDocs(starter)}
 `);
 
   if (autoRun) {
     await runStart(projectName);
   }
+}
+
+function renderDocs(starter: Starter) {
+  const docs = starter.docs;
+  if (!docs) {
+    return '';
+  }
+  return `
+  ${tc.dim('Further reading:')}
+   ${tc.dim('-')} ${tc.cyan(docs)}`;
 }
 
 const starterCache = new Map<Starter, Promise<(name: string) => void>>();
@@ -66,13 +76,6 @@ async function prepare(starter: Starter) {
   return (projectName: string) => {
     fs.renameSync(tmpPath, join(baseDir, projectName));
   };
-}
-
-function cd(path: string) {
-  return new Promise((resolve) => {
-    process.chdir(path);
-    resolve();
-  });
 }
 
 function installPackages(projectPath: string) {
@@ -108,4 +111,21 @@ function rimraf(dir_path: string) {
     });
     fs.rmdirSync(dir_path);
   }
+}
+
+function onlyUnix(str: string) {
+  return process.platform !== 'win32' ? str : '';
+}
+
+function printDuration(duration: number) {
+  if (duration > 1000) {
+    return `in ${(duration / 1000).toFixed(2)} s`;
+  } else {
+    const ms = parseFloat((duration).toFixed(3));
+    return `in ${duration} ms`;
+  }
+}
+
+function terminalPrompt() {
+  return process.platform === 'win32' ? '>' : '$';
 }

@@ -88,7 +88,7 @@ export class SelectPrompt extends Prompt {
 
   render(first) {
     if (first) this.out.write(cursor.hide);
-    else this.out.write(erase.lines(this.values.length + 1));
+    else this.out.write(erase.lines(this.values.length + 2));
 
     // Print prompt
     this.out.write(
@@ -96,14 +96,14 @@ export class SelectPrompt extends Prompt {
         style.symbol(this.done, this.aborted),
         color.bold(this.msg),
         style.delimiter(false),
-        this.done ? this.values[this.cursor].title : color.gray(this.hint)
+        this.done ? color.green(this.values[this.cursor].title.split(' ')[0]) : color.gray(this.hint)
       ].join(' ')
     );
 
     // Print choices
     if (!this.done) {
       this.out.write(
-        '\n' +
+        '\n\n' +
           this.values
             .map((v, i) => {
               let title = this.cursor === i ? color.cyan(v.title) : v.title;
