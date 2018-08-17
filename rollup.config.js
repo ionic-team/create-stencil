@@ -10,5 +10,18 @@ export default {
     strict: false,
     banner: '#! /usr/bin/env node\n',
   },
-  plugins: [resolve(), json(), commonjs()]
+  plugins: [resolve(), json(), commonjs()],
+  external: [
+    'child_process',
+    'fs',
+    'path',
+    'os',
+    'https',
+    'readline',
+    'zlib',
+    'events',
+    'stream',
+    'util',
+    'buffer'
+  ]
 };

@@ -1,8 +1,7 @@
-// @ts-ignore
-import prompts from 'prompts';
 import tc from 'turbocolor';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
+import { prompt } from './vendor/prompts';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   // Get starter's repo
@@ -25,7 +24,7 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
 }
 
 async function askStarterName(): Promise<string> {
-  const { starterName } = await prompts([
+  const { starterName } = await prompt([
     {
       type: 'select',
       name: 'starterName',
@@ -60,7 +59,7 @@ function getChoices() {
 }
 
 async function askProjectName() {
-  const { projectName } = await prompts([{
+  const { projectName } = await prompt([{
     type: 'text',
     name: 'projectName',
     message: 'Project name',
@@ -72,7 +71,7 @@ async function askProjectName() {
 }
 
 async function askConfirm(starter: Starter, projectName: string) {
-  const { confirm } = await prompts([{
+  const { confirm } = await prompt([{
     type: 'confirm',
     name: 'confirm',
     message: 'Confirm?'

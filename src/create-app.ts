@@ -1,4 +1,4 @@
-import { exec, spawn } from 'child_process';
+import { spawn } from 'child_process';
 import { Spinner } from 'cli-spinner';
 import fs from 'fs';
 import { tmpdir } from 'os';
