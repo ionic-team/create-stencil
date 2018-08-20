@@ -1,14 +1,13 @@
-import { ChildProcess, spawn } from 'child_process';
 import { Spinner } from 'cli-spinner';
 import fs from 'fs';
-import { tmpdir } from 'os';
 import { join } from 'path';
 import tc from 'turbocolor';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
+import { npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
 
-const childrenProcesses: ChildProcess[] = [];
+const starterCache = new Map<Starter, Promise<(name: string) => void>>();
 
 export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
   if (fs.existsSync(projectName)) {
@@ -22,6 +21,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   const startT = Date.now();
   const moveTo = await prepareStarter(starter);
   moveTo(projectName);
+  setTmpDirectory(null);
   loading.stop(true);
 
   const time = printDuration(Date.now() - startT);
@@ -34,7 +34,7 @@ ${renderDocs(starter)}
 `);
 
   if (autoRun) {
-    await runStart(projectName);
+    await npm('start', projectName, 'inherit');
   }
 }
 
@@ -47,8 +47,6 @@ function renderDocs(starter: Starter) {
   ${tc.dim('Further reading:')}
    ${tc.dim('-')} ${tc.cyan(docs)}`;
 }
-
-const starterCache = new Map<Starter, Promise<(name: string) => void>>();
 
 export function prepareStarter(starter: Starter) {
   let promise = starterCache.get(starter);
@@ -63,75 +61,13 @@ async function prepare(starter: Starter) {
   const buffer = await downloadStarter(starter);
   const baseDir = process.cwd();
   const tmpPath = join(baseDir, '.tmp-stencil-starter');
-  rimraf(tmpPath);
-  const onExit = () => {
-    childrenProcesses.forEach(p => p.kill());
-    rimraf(tmpPath);
-    process.exit();
-  };
-  process.on('uncaughtException', onExit);
-  process.on('exit', onExit);
-  process.on('SIGINT', onExit);
-  process.on('SIGTERM', onExit);
+
+  setTmpDirectory(tmpPath);
 
   await unZipBuffer(buffer, tmpPath);
-  await installPackages(tmpPath);
+  await npm('ci', tmpPath);
 
   return (projectName: string) => {
     fs.renameSync(tmpPath, join(baseDir, projectName));
   };
-}
-
-function installPackages(projectPath: string) {
-  return new Promise((resolve, reject) => {
-    const p = spawn('npm', ['ci'], {
-      stdio: 'ignore',
-      cwd: projectPath
-    });
-    p.once('exit', () => resolve());
-    p.once('error', reject);
-    childrenProcesses.push(p);
-  });
-}
-
-function runStart(projectPath: string) {
-  return new Promise((resolve) => {
-    const p = spawn('npm', ['start'], {
-      stdio: 'inherit',
-      cwd: projectPath
-    });
-    p.once('exit', () => resolve());
-    childrenProcesses.push(p);
-  });
-}
-
-function rimraf(dir_path: string) {
-  if (fs.existsSync(dir_path)) {
-    fs.readdirSync(dir_path).forEach((entry) => {
-      const entry_path = join(dir_path, entry);
-      if (fs.lstatSync(entry_path).isDirectory()) {
-        rimraf(entry_path);
-      } else {
-        fs.unlinkSync(entry_path);
-      }
-    });
-    fs.rmdirSync(dir_path);
-  }
-}
-
-function onlyUnix(str: string) {
-  return process.platform !== 'win32' ? str : '';
-}
-
-function printDuration(duration: number) {
-  if (duration > 1000) {
-    return `in ${(duration / 1000).toFixed(2)} s`;
-  } else {
-    const ms = parseFloat((duration).toFixed(3));
-    return `in ${duration} ms`;
-  }
-}
-
-function terminalPrompt() {
-  return process.platform === 'win32' ? '>' : '$';
 }

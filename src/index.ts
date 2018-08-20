@@ -3,6 +3,7 @@ import tc from 'turbocolor';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
+import { cleanup } from './utils';
 
 const USAGE_DOCS = `Usage:
 
@@ -37,8 +38,8 @@ async function run() {
     }
   } catch (e) {
     console.error(`\n${tc.red('✖')} ${e.message}\n`);
-    process.exit(-1);
   }
+  cleanup();
 }
 
 run();
