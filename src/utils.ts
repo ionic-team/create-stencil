@@ -35,8 +35,9 @@ export function killChildren() {
 
 export function npm(command: string, projectPath: string, stdio: any = 'ignore') {
   return new Promise((resolve, reject) => {
-    const p = spawn(isWin() ? 'npm.cmd' : 'npm', [command], {
+    const p = spawn('npm', [command], {
       stdio,
+      shell: true,
       cwd: projectPath
     });
     p.once('exit', () => resolve());
