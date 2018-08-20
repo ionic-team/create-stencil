@@ -5,9 +5,9 @@ import tc from 'turbocolor';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
-import { npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
+import { cleanup, npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
 
-const starterCache = new Map<Starter, Promise<(name: string) => void>>();
+const starterCache = new Map<Starter, Promise<undefined | ((name: string) => void)>>();
 
 export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
   if (fs.existsSync(projectName)) {
@@ -20,8 +20,10 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
 
   const startT = Date.now();
   const moveTo = await prepareStarter(starter);
+  if (!moveTo) {
+    throw new Error('starter install failed');
+  }
   moveTo(projectName);
-  setTmpDirectory(null);
   loading.stop(true);
 
   const time = printDuration(Date.now() - startT);
@@ -58,16 +60,21 @@ export function prepareStarter(starter: Starter) {
 }
 
 async function prepare(starter: Starter) {
-  const buffer = await downloadStarter(starter);
   const baseDir = process.cwd();
   const tmpPath = join(baseDir, '.tmp-stencil-starter');
+  try {
+    const buffer = await downloadStarter(starter);
+    setTmpDirectory(tmpPath);
 
-  setTmpDirectory(tmpPath);
+    await unZipBuffer(buffer, tmpPath);
+    await npm('ci', tmpPath);
 
-  await unZipBuffer(buffer, tmpPath);
-  await npm('ci', tmpPath);
-
-  return (projectName: string) => {
-    fs.renameSync(tmpPath, join(baseDir, projectName));
-  };
+    return (projectName: string) => {
+      fs.renameSync(tmpPath, join(baseDir, projectName));
+      setTmpDirectory(null);
+    };
+  } catch (e) {
+    console.log(e);
+    cleanup();
+  }
 }

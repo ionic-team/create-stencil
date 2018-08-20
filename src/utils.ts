@@ -1,4 +1,6 @@
-import { ChildProcess, spawn } from 'child_process';
+import { ChildProcess } from 'child_process';
+// @ts-ignore
+import spawn from 'cross-spawn';
 import fs from 'fs';
 import { join } from 'path';
 
@@ -37,8 +39,6 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
   return new Promise((resolve, reject) => {
     const p = spawn('npm', [command], {
       stdio,
-      shell: true,
-      env: process.env,
       cwd: projectPath
     });
     p.once('exit', () => resolve());
