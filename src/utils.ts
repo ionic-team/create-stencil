@@ -38,6 +38,7 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
     const p = spawn('npm', [command], {
       stdio,
       shell: true,
+      env: process.env,
       cwd: projectPath
     });
     p.once('exit', () => resolve());
