@@ -28,14 +28,21 @@ npm init stencil app my-stencil-app
 
 ## Developing locally
 
-If you want to add features, clone this repo, open terminal, then:
+If you want to add features, clone this repo, open terminal:
+
+#### Install dependencies
 
 ```bash
-npm run build
-npx ./dist/index.js
+npm init
 ```
 
-And it will help you test out your changes in this directory. Don't commit those files! :)
+Then, for every change you want to test:
+
+```bash
+npm run dev
+```
+
+And it will help you test out your changes.
 
 
 ## Citations

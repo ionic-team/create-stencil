@@ -10,6 +10,7 @@
     "minify": "uglifyjs --compress --mangle --toplevel --output dist/index.js -- dist/index.js",
     "build": "npm run build.tsc && npm run build.bundle && npm run minify",
     "build.dev": "npm run build.tsc && npm run build.bundle",
+    "dev": "npm run build.dev && npm start",
     "version": "npm build",
     "release": "np"
   },
