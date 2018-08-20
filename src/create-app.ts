@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 import { Spinner } from 'cli-spinner';
 import fs from 'fs';
 import { tmpdir } from 'os';
@@ -7,6 +7,8 @@ import tc from 'turbocolor';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
+
+const childrenProcesses: ChildProcess[] = [];
 
 export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
   if (fs.existsSync(projectName)) {
@@ -59,9 +61,11 @@ export function prepareStarter(starter: Starter) {
 
 async function prepare(starter: Starter) {
   const buffer = await downloadStarter(starter);
-  const tmpPath = join(tmpdir(), `stencil-starter-${Date.now()}`);
   const baseDir = process.cwd();
+  const tmpPath = join(baseDir, '.tmp-stencil-starter');
+  rimraf(tmpPath);
   const onExit = () => {
+    childrenProcesses.forEach(p => p.kill());
     rimraf(tmpPath);
     process.exit();
   };
@@ -86,6 +90,7 @@ function installPackages(projectPath: string) {
     });
     p.once('exit', () => resolve());
     p.once('error', reject);
+    childrenProcesses.push(p);
   });
 }
 
@@ -96,6 +101,7 @@ function runStart(projectPath: string) {
       cwd: projectPath
     });
     p.once('exit', () => resolve());
+    childrenProcesses.push(p);
   });
 }
 
