@@ -19,11 +19,11 @@ function handleZipFile(projectName: string, resolve: any, reject: any) {
     // track when we've closed all our file handles
     zipfile.readEntry();
     zipfile.on('entry', (entry: any) => {
-      const segments = entry.fileName.split(path.sep);
+      const segments = entry.fileName.split('/');
       segments[0] = projectName;
       const fileName = segments.join(path.sep);
 
-      if (/\/$/.test(fileName)) {
+      if (fileName[fileName.length - 1] === path.sep) {
         // Directory file names end with '/'.
         // Note that entires for directories themselves are optional.
         // An entry's fileName implicitly requires its parent directories to exist.

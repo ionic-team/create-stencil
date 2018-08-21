@@ -1,6 +1,4 @@
-import { ChildProcess } from 'child_process';
-// @ts-ignore
-import spawn from 'cross-spawn';
+import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
 
@@ -38,6 +36,7 @@ export function killChildren() {
 export function npm(command: string, projectPath: string, stdio: any = 'ignore') {
   return new Promise((resolve, reject) => {
     const p = spawn('npm', [command], {
+      shell: true,
       stdio,
       cwd: projectPath
     });
