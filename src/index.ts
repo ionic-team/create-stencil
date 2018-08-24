@@ -4,6 +4,7 @@ import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
 import { cleanup } from './utils';
+import { getPkgVersion } from './version';
 
 const USAGE_DOCS = `Usage:
 
@@ -15,9 +16,14 @@ async function run() {
 
   const autoRun = args.indexOf('--run') >= 0;
   const help = args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0;
+  const version = args.indexOf('--version') >= 0;
 
   args = args.filter(a => a[0] !== '-');
 
+  if (version) {
+    console.log(getPkgVersion());
+    return 0;
+  }
   if (help) {
     console.log(USAGE_DOCS);
     return 0;

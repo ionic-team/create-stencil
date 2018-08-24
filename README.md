@@ -1,6 +1,17 @@
-# Create Stencil:
+# Create Stencil
+
+> Note that you will need to use npm 6 or higher.
+
+Run:
+
+```
+npm i -g npm
+```
+
+To install latest version of `npm`
 
 ## Usage
+
 
 ### Interactive mode
 
