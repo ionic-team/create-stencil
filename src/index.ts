@@ -16,12 +16,12 @@ async function run() {
 
   const autoRun = args.indexOf('--run') >= 0;
   const help = args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0;
-  const version = args.indexOf('--version') >= 0;
+  const info = args.indexOf('--info') >= 0;
 
   args = args.filter(a => a[0] !== '-');
 
-  if (version) {
-    console.log(getPkgVersion());
+  if (info) {
+    console.log('create-stencil:', getPkgVersion(), '\n');
     return 0;
   }
   if (help) {
