@@ -1,9 +1,9 @@
-
-
 import readline from 'readline';
 import { action } from '../util';
 import EventEmitter from 'events';
 import { cursor } from 'sisteransi';
+
+const beep = '\x07';
 
 /**
  * Base prompt skeleton
