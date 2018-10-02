@@ -3,7 +3,7 @@ import tc from 'turbocolor';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
-import { cleanup } from './utils';
+import { cleanup, nodeVersionWarning } from './utils';
 import { getPkgVersion } from './version';
 
 const USAGE_DOCS = `Usage:
@@ -28,6 +28,9 @@ async function run() {
     console.log(USAGE_DOCS);
     return 0;
   }
+
+  nodeVersionWarning();
+
   try {
     if (args.length === 2) {
       await createApp(
