@@ -1,6 +1,6 @@
 import color from 'turbocolor';
 import { Prompt } from './prompt';
-import { style, clear } from '../util';
+import { style } from '../util';
 import { erase, cursor } from 'sisteransi';
 
 /**

@@ -9,7 +9,7 @@ const beep = '\x07';
  * Base prompt skeleton
  */
 export class Prompt extends EventEmitter {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     super();
 
     this.in = opts.in || process.stdin;

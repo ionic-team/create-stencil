@@ -5,13 +5,22 @@ import tc from 'turbocolor';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
-import { cleanup, npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
+import { cleanup, npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
 
-const starterCache = new Map<Starter, Promise<undefined | ((name: string) => void)>>();
+// @ts-ignore
+import replace from 'replace-in-file';
+
+const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
 
 export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
   if (fs.existsSync(projectName)) {
     throw new Error(`Folder "./${projectName}" already exists, please choose a different project name.`);
+  }
+
+  projectName = projectName.toLowerCase().trim();
+
+  if (!validateProjectName(projectName)) {
+    throw new Error(`Project name "${projectName}" is not valid. It must be a snake-case name without spaces.`);
   }
 
   const loading = new Spinner(tc.bold('Preparing starter'));
@@ -23,7 +32,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   if (!moveTo) {
     throw new Error('starter install failed');
   }
-  moveTo(projectName);
+  await moveTo(projectName);
   loading.stop(true);
 
   const time = printDuration(Date.now() - startT);
@@ -69,12 +78,22 @@ async function prepare(starter: Starter) {
     await unZipBuffer(buffer, tmpPath);
     await npm('ci', tmpPath);
 
-    return (projectName: string) => {
-      fs.renameSync(tmpPath, join(baseDir, projectName));
+    return async (projectName: string) => {
+      const filePath = join(baseDir, projectName);
+      await renameAsync(tmpPath, filePath);
+      await replace({
+        files: [join(filePath, '*'), join(filePath, 'src/*')],
+        from: /___PROJECT_NAME___/g,
+        to: projectName,
+      });
       setTmpDirectory(null);
     };
   } catch (e) {
     console.log(e);
     cleanup();
   }
+}
+
+function validateProjectName(projectName: string) {
+  return !/[^a-zA-Z0-9-]/.test(projectName);
 }

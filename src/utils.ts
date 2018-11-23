@@ -1,7 +1,8 @@
-import tc from 'turbocolor';
 import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
+import tc from 'turbocolor';
+import { promisify } from 'util';
 
 const childrenProcesses: ChildProcess[] = [];
 let tmpDirectory: string | null = null;
@@ -82,13 +83,15 @@ export function terminalPrompt() {
   return isWin() ? '>' : '$';
 }
 
+export const renameAsync = promisify(fs.rename);
+
 export function nodeVersionWarning() {
   try {
-    var v = process.version.replace('v', '').split('.');
-    var major = parseInt(v[0], 10);
-    var minor = parseInt(v[1], 10);
+    const v = process.version.replace('v', '').split('.');
+    const major = parseInt(v[0], 10);
+    const minor = parseInt(v[1], 10);
     if (major < 8 || (major === 8 && minor < 9)) {
       console.log(tc.yellow(`Your current version of Node is ${process.version}, however the recommendation is a minimum of Node 8.x LTS. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`));
     }
-  } catch (e) {}
+  } catch (e) { return; }
 }
