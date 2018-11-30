@@ -40,6 +40,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
 
   ${tc.dim('Next steps:')}
    ${tc.dim(terminalPrompt())} ${tc.green(`cd ${projectName}`)}
+   ${tc.dim(terminalPrompt())} ${tc.green('npm install')}
    ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
 ${renderDocs(starter)}
 `);
