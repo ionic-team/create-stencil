@@ -83,7 +83,7 @@ async function prepare(starter: Starter) {
       await renameAsync(tmpPath, filePath);
       await replace({
         files: [join(filePath, '*'), join(filePath, 'src/*')],
-        from: /___PROJECT_NAME___/g,
+        from: /stencil-starter-project-name/g,
         to: projectName,
       });
       setTmpDirectory(null);
