@@ -47,10 +47,10 @@ If you want to add features, clone this repo, open terminal:
 npm init
 ```
 
-Then, for every change you want to test:
+Then, run the development server:
 
 ```bash
-npm run dev
+npm start
 ```
 
 And it will help you test out your changes.
