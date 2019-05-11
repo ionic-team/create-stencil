@@ -7,8 +7,12 @@ import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
 import { cleanup, npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
 
+import camelCase from 'camelcase';
 // @ts-ignore
 import replace from 'replace-in-file';
+import { promisify } from 'util';
+// tslint:disable-next-line: no-var-requires
+const glob = promisify(require('glob'));
 
 const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
 
@@ -81,11 +85,26 @@ async function prepare(starter: Starter) {
     return async (projectName: string) => {
       const filePath = join(baseDir, projectName);
       await renameAsync(tmpPath, filePath);
+
+      // rename occurences in files
       await replace({
-        files: [join(filePath, '*'), join(filePath, 'src/*')],
-        from: /stencil-starter-project-name/g,
-        to: projectName,
+        files: [join(filePath, '*'), join(filePath, 'src/**/*')],
+        from: [/stencil-starter-project-name/g, /my-component/g, /MyComponent/g],
+        to: [projectName, projectName, camelCase(projectName, { pascalCase: true })],
       });
+
+      // rename files and folders
+      const toRename = await glob(join(filePath, 'src/**/my-component*'));
+      // reverse order in order to rename deepest files first, the containing folders after that
+      toRename.reverse();
+      toRename.forEach(async (path: string) => {
+        try {
+          await renameAsync(path, path.replace(/my-component(?!.*my-component)/g, projectName));  // replace last occurence in path
+        } catch (e) {
+          console.error("could not rename file", e);
+        }
+      });
+
       setTmpDirectory(null);
     };
   } catch (e) {
