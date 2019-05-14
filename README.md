@@ -44,7 +44,7 @@ If you want to add features, clone this repo, open terminal:
 #### Install dependencies
 
 ```bash
-npm init
+npm install
 ```
 
 Then, run the development server:
