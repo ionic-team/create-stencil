@@ -38,10 +38,23 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   const time = printDuration(Date.now() - startT);
   console.log(`${tc.green('✔')} ${tc.bold('All setup')} ${onlyUnix('🎉')} ${tc.dim(time)}
 
-  ${tc.dim('Next steps:')}
-   ${tc.dim(terminalPrompt())} ${tc.green(`cd ${projectName}`)}
+  ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
+    Starts the development server.
+
+  ${tc.dim(terminalPrompt())} ${tc.green('npm run build')}
+    Builds your components/app in production mode.
+
+  ${tc.dim(terminalPrompt())} ${tc.green('npm test')}
+    Starts the test runner.
+
+
+  ${tc.dim('We suggest that you begin by typing:')}
+
+   ${tc.dim(terminalPrompt())} ${tc.green('cd')} ${projectName}
    ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
 ${renderDocs(starter)}
+
+  Happy hacking! 🎈
 `);
 
   if (autoRun) {
@@ -56,6 +69,7 @@ function renderDocs(starter: Starter) {
   }
   return `
   ${tc.dim('Further reading:')}
+
    ${tc.dim('-')} ${tc.cyan(docs)}`;
 }
 
