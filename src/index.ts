@@ -31,6 +31,7 @@ async function run() {
 
   nodeVersionWarning();
 
+  let didError = false
   try {
     if (args.length === 2) {
       await createApp(
@@ -46,9 +47,10 @@ async function run() {
       throw new Error(USAGE_DOCS);
     }
   } catch (e) {
+    didError = true;
     console.error(`\n${tc.red('✖')} ${e.message}\n`);
   }
-  cleanup();
+  cleanup(didError);
 }
 
 run();

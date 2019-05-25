@@ -11,24 +11,24 @@ export function setTmpDirectory(dir: string | null) {
   tmpDirectory = dir;
   if (dir) {
     rimraf(dir);
-    process.once('uncaughtException', cleanup);
-    process.once('exit', cleanup);
-    process.once('SIGINT', cleanup);
-    process.once('SIGTERM', cleanup);
+    process.once('uncaughtException', () => cleanup(true));
+    process.once('exit', () => cleanup());
+    process.once('SIGINT', () => cleanup());
+    process.once('SIGTERM', () => cleanup());
   }
 }
 
-export function cleanup() {
+export function cleanup(didError = false) {
   if (tmpDirectory) {
     killChildren();
-    setTimeout(() => {
-      if (tmpDirectory) {
-        rimraf(tmpDirectory);
-        tmpDirectory = null;
-      }
-      process.exit();
-    }, 200);
   }
+  setTimeout(() => {
+    if (tmpDirectory) {
+      rimraf(tmpDirectory);
+      tmpDirectory = null;
+    }
+    process.exit(didError ? 1 : 0);
+  }, 200);
 }
 
 export function killChildren() {
