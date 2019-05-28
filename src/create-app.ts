@@ -54,7 +54,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
    ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
 ${renderDocs(starter)}
 
-  Happy hacking! 🎈
+  Happy coding! 🎈
 `);
 
   if (autoRun) {
