@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2015",
     "allowJs": true,
     "module": "es2015",
+    "target": "es2017",
     "strict": true,
     "noEmitOnError": false,
     "sourceMap": false,

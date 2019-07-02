@@ -1,6 +1,6 @@
 {
   "name": "create-stencil",
-  "version": "1.7.1",
+  "version": "1.8.1",
   "description": "Quickly create a new stencil application: npm init stencil",
   "main": "dist/index.js",
   "scripts": {
@@ -18,27 +18,31 @@
   "files": [
     "dist/index.js"
   ],
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=6.0.0"
+  },
   "bin": {
     "create-stencil": "dist/index.js"
   },
   "devDependencies": {
     "@types/cli-spinner": "^0.2.0",
-    "@types/node": "^10.11.3",
-    "@types/yauzl": "^2.9.0",
-    "cli-spinner": "^0.2.8",
+    "@types/node": "^12.0.2",
+    "@types/yauzl": "^2.9.1",
+    "cli-spinner": "^0.2.10",
     "https-proxy-agent": "^2.2.1",
-    "np": "^3.0.4",
-    "replace-in-file": "^3.4.2",
-    "rollup": "^0.67.3",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
+    "np": "^5.0.2",
+    "replace-in-file": "^4.1.0",
+    "rollup": "^1.12.3",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.0.0",
     "sisteransi": "^1.0.0",
-    "terser": "^3.10.12",
-    "tslint": "^5.11.0",
-    "tslint-ionic-rules": "0.0.19",
+    "terser": "^4.0.0",
+    "tslint": "^5.16.0",
+    "tslint-ionic-rules": "0.0.21",
     "turbocolor": "^2.4.5",
-    "typescript": "^3.1.6",
+    "typescript": "^3.4.5",
     "yauzl": "^2.10.0"
   },
   "author": "Ionic Team & William M. Riley",

@@ -81,7 +81,8 @@ async function askConfirm(starter: Starter, projectName: string) {
   const { confirm } = await prompt([{
     type: 'confirm',
     name: 'confirm',
-    message: 'Confirm?'
+    message: 'Confirm?',
+    initial: true
   }]);
   return confirm;
 }
