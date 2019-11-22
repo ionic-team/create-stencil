@@ -12,7 +12,7 @@ export const STARTERS: Starter[] = [
     name: 'ionic-pwa',
     repo: 'ionic-team/ionic-pwa-toolkit',
     description: 'Everything you need to build fast, production ready PWAs',
-    docs: 'https://beta.ionicframework.com'
+    docs: 'https://ionicframework.com/enterprise/solutions/pwa'
   },
   {
     name: 'app',
