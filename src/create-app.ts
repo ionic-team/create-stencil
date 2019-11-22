@@ -20,7 +20,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   projectName = projectName.toLowerCase().trim();
 
   if (!validateProjectName(projectName)) {
-    throw new Error(`Project name "${projectName}" is not valid. It must be a snake-case name without spaces.`);
+    throw new Error(`Project name "${projectName}" is not valid. It must be a kebab-case name without spaces.`);
   }
 
   const loading = new Spinner(tc.bold('Preparing starter'));
