@@ -31,7 +31,7 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
 }
 
 async function askStarterName(): Promise<string> {
-  const { starterName } = await prompt([
+  const { starterName }:any = await prompt([
     {
       type: 'select',
       name: 'starterName',
@@ -66,7 +66,7 @@ function getChoices() {
 }
 
 async function askProjectName() {
-  const { projectName } = await prompt([{
+  const { projectName }:any = await prompt([{
     type: 'text',
     name: 'projectName',
     message: 'Project name',
@@ -78,7 +78,7 @@ async function askProjectName() {
 }
 
 async function askConfirm(starter: Starter, projectName: string) {
-  const { confirm } = await prompt([{
+  const { confirm }:any = await prompt([{
     type: 'confirm',
     name: 'confirm',
     message: 'Confirm?',

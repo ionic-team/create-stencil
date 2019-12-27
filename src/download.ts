@@ -1,9 +1,7 @@
 import { get } from 'https';
 import * as Url from 'url';
 import { Starter } from './starters';
-
-// tslint:disable-next-line:no-var-requires
-const HttpsProxyAgent = require('https-proxy-agent');
+import * as HttpsProxyAgentModule from 'https-proxy-agent';
 
 export function downloadStarter(starter: Starter) {
     return downloadFromURL(`https://github.com/${starter.repo}/archive/master.zip`);
@@ -12,8 +10,9 @@ export function downloadStarter(starter: Starter) {
 function downloadFromURL(url: string): Promise<Buffer> {
 
     const options = Url.parse(url);
-    const agent = new HttpsProxyAgent(process.env.https_proxy);
-
+    const httpsProxyString:string = process.env.https_proxy || "";
+    // @ts-ignore
+    const agent = new HttpsProxyAgentModule.default(httpsProxyString);
     // @ts-ignore
     options.agent = agent;
 
