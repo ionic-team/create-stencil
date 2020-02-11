@@ -1,6 +1,4 @@
-
-
-import color from 'turbocolor';
+import color from 'colorette';
 import { Prompt } from './prompt';
 import { style, clear, figures } from '../util';
 import { erase, cursor } from 'sisteransi';
@@ -15,7 +13,7 @@ import { erase, cursor } from 'sisteransi';
  * @param {Number} [opts.initial] Index of default value
  */
 export class SelectPrompt extends Prompt {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     super(opts);
     this.msg = opts.message;
     this.hint = opts.hint || '- Use arrow-keys. Return to submit.';
@@ -104,13 +102,13 @@ export class SelectPrompt extends Prompt {
     if (!this.done) {
       this.out.write(
         '\n\n' +
-          this.values
-            .map((v, i) => {
-              let title = this.cursor === i ? color.cyan(v.title) : v.title;
-              let prefix = this.cursor === i ? color.cyan(figures.pointer) + ' ' : '  ';
-              return `${prefix} ${title}`;
-            })
-            .join('\n')
+        this.values
+          .map((v, i) => {
+            let title = this.cursor === i ? color.cyan(v.title) : v.title;
+            let prefix = this.cursor === i ? color.cyan(figures.pointer) + ' ' : '  ';
+            return `${prefix} ${title}`;
+          })
+          .join('\n')
       );
     }
   }

@@ -1,11 +1,11 @@
 import { Spinner } from 'cli-spinner';
+import tc from 'colorette';
 import fs from 'fs';
 import { join } from 'path';
-import tc from 'turbocolor';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
-import { cleanup, npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
+import { npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
 
 // @ts-ignore
 import replace from 'replace-in-file';
@@ -36,7 +36,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   loading.stop(true);
 
   const time = printDuration(Date.now() - startT);
-  console.log(`${tc.green('✔')} ${tc.bold('All setup')} ${onlyUnix('🎉')} ${tc.dim(time)}
+  console.log(`${tc.green('✔')} ${tc.bold('All setup')} ${onlyUnix('🎉')}  ${tc.dim(time)}
 
   ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
     Starts the development server.
@@ -54,7 +54,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
    ${tc.dim(terminalPrompt())} ${tc.green('npm start')}
 ${renderDocs(starter)}
 
-  Happy coding! 🎈
+  Happy coding! ${onlyUnix('🎈')}
 `);
 
   if (autoRun) {
@@ -77,7 +77,7 @@ export function prepareStarter(starter: Starter) {
   let promise = starterCache.get(starter);
   if (!promise) {
     promise = prepare(starter);
-     // silent crash, we will handle later
+    // silent crash, we will handle later
     promise.catch(() => { return; });
     starterCache.set(starter, promise);
   }

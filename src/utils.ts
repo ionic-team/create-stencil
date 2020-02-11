@@ -1,7 +1,7 @@
 import { ChildProcess, spawn } from 'child_process';
+import tc from 'colorette';
 import fs from 'fs';
 import { join } from 'path';
-import tc from 'turbocolor';
 import { promisify } from 'util';
 
 const childrenProcesses: ChildProcess[] = [];
@@ -63,7 +63,7 @@ export function rimraf(dir_path: string) {
 }
 
 export function onlyUnix(str: string) {
-  return isWin() ? str : '';
+  return isWin() ? '' : str;
 }
 
 export function printDuration(duration: number) {

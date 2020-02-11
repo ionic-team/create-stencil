@@ -1,6 +1,6 @@
 // @ts-ignore
+import tc from 'colorette';
 import { cursor, erase } from 'sisteransi';
-import tc from 'turbocolor';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 import { prompt } from './vendor/prompts';

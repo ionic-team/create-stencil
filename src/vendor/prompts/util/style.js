@@ -1,4 +1,4 @@
-import c from 'turbocolor';
+import c from 'colorette';
 import figures from './figures';
 
 // rendering user input.

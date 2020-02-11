@@ -1,4 +1,4 @@
-import color from 'turbocolor';
+import color from 'colorette';
 import { Prompt } from './prompt';
 import { cursor } from 'sisteransi';
 import { style, clear } from '../util';
@@ -11,7 +11,7 @@ import { style, clear } from '../util';
  * @param {String} [opts.initial] Default value
  */
 export class TextPrompt extends Prompt {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     super(opts);
     this.transform = style.render(opts.style);
     this.scale = this.transform.scale;
@@ -74,7 +74,7 @@ export class TextPrompt extends Prompt {
 
   moveCursor(n) {
     if (this.placeholder) return;
-    this.cursor = this.cursor+n;
+    this.cursor = this.cursor + n;
   }
 
   _(c, key) {
@@ -88,7 +88,7 @@ export class TextPrompt extends Prompt {
 
   delete() {
     if (this.value.length === 0) return this.bell();
-    let s1 = this.value.slice(0, this.cursor-1);
+    let s1 = this.value.slice(0, this.cursor - 1);
     let s2 = this.value.slice(this.cursor);
     this.value = `${s1}${s2}`;
     this.moveCursor(-1);
@@ -112,7 +112,7 @@ export class TextPrompt extends Prompt {
   }
 
   right() {
-    if (this.cursor*this.scale >= this.rendered.length || this.placeholder) return this.bell();
+    if (this.cursor * this.scale >= this.rendered.length || this.placeholder) return this.bell();
     this.moveCursor(1);
     this.render();
   }
@@ -127,8 +127,8 @@ export class TextPrompt extends Prompt {
 
     this.out.write(this.clear + prompt);
     this.out.write(cursor.move(this.placeholder ?
-      -this.initial.length*this.scale :
-      -this.rendered.length + this.cursor*this.scale
+      -this.initial.length * this.scale :
+      -this.rendered.length + this.cursor * this.scale
     ));
 
     this.clear = clear(prompt);

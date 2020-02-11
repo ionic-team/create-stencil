@@ -1,5 +1,5 @@
 // @ts-ignore
-import tc from 'turbocolor';
+import tc from 'colorette';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
@@ -31,7 +31,7 @@ async function run() {
 
   nodeVersionWarning();
 
-  let didError = false
+  let didError = false;
   try {
     if (args.length === 2) {
       await createApp(
