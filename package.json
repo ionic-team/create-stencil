@@ -30,6 +30,7 @@
     "@types/node": "^12.0.2",
     "@types/yauzl": "^2.9.1",
     "cli-spinner": "^0.2.10",
+    "https-proxy-agent": "^2.2.1",
     "np": "^5.0.2",
     "replace-in-file": "^4.1.0",
     "rollup": "^1.12.3",
