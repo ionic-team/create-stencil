@@ -2,10 +2,11 @@
 import tc from 'colorette';
 import { cursor, erase } from 'sisteransi';
 import { createApp, prepareStarter } from './create-app';
+import { CliFlags } from './flags';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 import { prompt } from './vendor/prompts';
 
-export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
+export async function runInteractive(starterName: string | undefined, flags: CliFlags) {
   process.stdout.write(erase.screen);
   process.stdout.write(cursor.to(0, 1));
 
@@ -16,7 +17,7 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
   const starter = getStarterRepo(starterName);
 
   // start downloading in the background
-  prepareStarter(starter);
+  prepareStarter(starter, flags);
 
   // Get project name
   const projectName = await askProjectName();
@@ -24,14 +25,14 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
   // Ask for confirmation
   const confirm = await askConfirm(starter, projectName);
   if (confirm) {
-    await createApp(starter, projectName, autoRun);
+    await createApp(starter, projectName, flags);
   } else {
     console.log('\n  aborting...');
   }
 }
 
 async function askStarterName(): Promise<string> {
-  const { starterName }:any = await prompt([
+  const { starterName }: any = await prompt([
     {
       type: 'select',
       name: 'starterName',
@@ -44,6 +45,7 @@ async function askStarterName(): Promise<string> {
       message: 'Type a custom starter',
     }
   ]);
+
   if (!starterName) {
     throw new Error(`No starter was provided, try again.`);
   }
@@ -66,7 +68,7 @@ function getChoices() {
 }
 
 async function askProjectName() {
-  const { projectName }:any = await prompt([{
+  const { projectName }: any = await prompt([{
     type: 'text',
     name: 'projectName',
     message: 'Project name',
@@ -78,7 +80,7 @@ async function askProjectName() {
 }
 
 async function askConfirm(starter: Starter, projectName: string) {
-  const { confirm }:any = await prompt([{
+  const { confirm }: any = await prompt([{
     type: 'confirm',
     name: 'confirm',
     message: 'Confirm?',
@@ -95,7 +97,7 @@ function padEnd(str: string, targetLength: number, padString = ' ') {
 
   targetLength = targetLength - str.length;
   if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
+    padString += padString.repeat(targetLength / padString.length);
   }
 
   return String(str) + padString.slice(0, targetLength);

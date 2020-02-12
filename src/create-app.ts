@@ -3,6 +3,7 @@ import tc from 'colorette';
 import fs from 'fs';
 import { join } from 'path';
 import { downloadStarter } from './download';
+import { CliFlags } from './flags';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
 import { npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
@@ -12,7 +13,7 @@ import replace from 'replace-in-file';
 
 const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
 
-export async function createApp(starter: Starter, projectName: string, autoRun: boolean) {
+export async function createApp(starter: Starter, projectName: string, flags: CliFlags) {
   if (fs.existsSync(projectName)) {
     throw new Error(`Folder "./${projectName}" already exists, please choose a different project name.`);
   }
@@ -28,7 +29,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   loading.start();
 
   const startT = Date.now();
-  const moveTo = await prepareStarter(starter);
+  const moveTo = await prepareStarter(starter, flags);
   if (!moveTo) {
     throw new Error('starter install failed');
   }
@@ -57,7 +58,7 @@ ${renderDocs(starter)}
   Happy coding! ${onlyUnix('🎈')}
 `);
 
-  if (autoRun) {
+  if (flags.autoRun) {
     await npm('start', projectName, 'inherit');
   }
 }
@@ -73,10 +74,10 @@ function renderDocs(starter: Starter) {
    ${tc.dim('-')} ${tc.cyan(docs)}`;
 }
 
-export function prepareStarter(starter: Starter) {
+export function prepareStarter(starter: Starter, flags: CliFlags) {
   let promise = starterCache.get(starter);
   if (!promise) {
-    promise = prepare(starter);
+    promise = prepare(starter, flags);
     // silent crash, we will handle later
     promise.catch(() => { return; });
     starterCache.set(starter, promise);
@@ -84,10 +85,10 @@ export function prepareStarter(starter: Starter) {
   return promise;
 }
 
-async function prepare(starter: Starter) {
+async function prepare(starter: Starter, flags: CliFlags) {
   const baseDir = process.cwd();
   const tmpPath = join(baseDir, '.tmp-stencil-starter');
-  const buffer = await downloadStarter(starter);
+  const buffer = await downloadStarter(starter, flags);
   setTmpDirectory(tmpPath);
 
   await unZipBuffer(buffer, tmpPath);

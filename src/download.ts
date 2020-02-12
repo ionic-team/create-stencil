@@ -1,29 +1,44 @@
 import { get } from 'https';
 import HttpsProxyAgentModule from 'https-proxy-agent';
 import * as Url from 'url';
+import { CliFlags } from './flags';
 import { Starter } from './starters';
 
-export function downloadStarter(starter: Starter) {
+export function downloadStarter(starter: Starter, flags: CliFlags) {
   const url = `https://github.com/${starter.repo}/archive/master.zip`;
-  return downloadFromURL(url);
+  return downloadFromURL(url, flags);
 }
 
-function downloadFromURL(url: string): Promise<Buffer> {
+function downloadFromURL(url: string, flags: CliFlags, urlRequests?: Set<string>): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
+      if (flags.debug) {
+        console.log(`download: ${url}`);
+      }
+
+      if (!urlRequests) {
+        urlRequests = new Set();
+      }
+      if (urlRequests.has(url)) {
+        reject(`${url} already requested`);
+        return;
+      }
+
+      urlRequests.add(url);
+
       const options = Url.parse(url);
 
-      const httpsProxyString = process.env.https_proxy;
-      if (typeof httpsProxyString === 'string') {
+      if (typeof flags.httpsProxy === 'string') {
         // @ts-ignore
-        const agent = new HttpsProxyAgentModule(httpsProxyString);
-        // @ts-ignore
-        options.agent = agent;
+        options.agent = new HttpsProxyAgentModule(flags.httpsProxy);
       }
 
       get(options, (res) => {
+        if (flags.debug) {
+          console.log(`${url} ${res.statusCode}`);
+        }
         if (res.statusCode === 302) {
-          downloadFromURL(res.headers.location!)
+          downloadFromURL(res.headers.location!, flags, urlRequests)
             .then(resolve, reject)
             .catch(err => {
               reject(err);
