@@ -10,12 +10,12 @@ export function downloadStarter(starter: Starter) {
 function downloadFromURL(url: string): Promise<Buffer> {
 
     const options = Url.parse(url);
-    const httpsProxyString:string = process.env.https_proxy || "";
-    // @ts-ignore
-    const agent = new HttpsProxyAgentModule.default(httpsProxyString);
-    // @ts-ignore
-    options.agent = agent;
-
+    if (process.env.https_proxy) {
+        // @ts-ignore
+        const agent = new HttpsProxyAgentModule.default(process.env.https_proxy);
+        // @ts-ignore
+        options.agent = agent;
+    }
     return new Promise((resolve, reject) => {
         get(options, (res) => {
             if (res.statusCode === 302) {

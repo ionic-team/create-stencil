@@ -31,6 +31,10 @@ Example:
 npm init stencil app my-stencil-app
 ```
 
+### Using a proxy
+
+If you are behind a proxy, configure `https_proxy` environment variable.
+
 ## Built-in starters
 
 - [app](https://github.com/ionic-team/stencil-app-starter)
