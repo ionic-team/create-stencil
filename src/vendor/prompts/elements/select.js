@@ -1,10 +1,7 @@
-
-
-import color from 'turbocolor';
+import { bold, cyan, gray, green } from 'colorette';
 import { Prompt } from './prompt';
 import { style, clear, figures } from '../util';
 import { erase, cursor } from 'sisteransi';
-
 
 /**
  * SelectPrompt Base Element
@@ -15,7 +12,7 @@ import { erase, cursor } from 'sisteransi';
  * @param {Number} [opts.initial] Index of default value
  */
 export class SelectPrompt extends Prompt {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     super(opts);
     this.msg = opts.message;
     this.hint = opts.hint || '- Use arrow-keys. Return to submit.';
@@ -92,12 +89,7 @@ export class SelectPrompt extends Prompt {
 
     // Print prompt
     this.out.write(
-      [
-        style.symbol(this.done, this.aborted),
-        color.bold(this.msg),
-        style.delimiter(false),
-        this.done ? color.green(this.values[this.cursor].title.split(' ')[0]) : color.gray(this.hint)
-      ].join(' ')
+      [style.symbol(this.done, this.aborted), bold(this.msg), style.delimiter(false), this.done ? green(this.values[this.cursor].title.split(' ')[0]) : gray(this.hint)].join(' '),
     );
 
     // Print choices
@@ -106,11 +98,11 @@ export class SelectPrompt extends Prompt {
         '\n\n' +
           this.values
             .map((v, i) => {
-              let title = this.cursor === i ? color.cyan(v.title) : v.title;
-              let prefix = this.cursor === i ? color.cyan(figures.pointer) + ' ' : '  ';
+              let title = this.cursor === i ? cyan(v.title) : v.title;
+              let prefix = this.cursor === i ? cyan(figures.pointer) + ' ' : '  ';
               return `${prefix} ${title}`;
             })
-            .join('\n')
+            .join('\n'),
       );
     }
   }

@@ -1,4 +1,4 @@
-import color from 'turbocolor';
+import { bold, green, gray } from 'colorette';
 import { Prompt } from './prompt';
 import { style } from '../util';
 import { erase, cursor } from 'sisteransi';
@@ -10,7 +10,7 @@ import { erase, cursor } from 'sisteransi';
  * @param {Boolean} [opts.initial] Default value (true/false)
  */
 export class ConfirmPrompt extends Prompt {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     super(opts);
     this.msg = opts.message;
     this.value = opts.initial;
@@ -56,7 +56,7 @@ export class ConfirmPrompt extends Prompt {
 
   render(first) {
     if (first) this.out.write(cursor.hide);
-    if(this.done && this.value) {
+    if (this.done && this.value) {
       this.out.write(erase.line);
     } else {
       this.out.write(
@@ -64,12 +64,10 @@ export class ConfirmPrompt extends Prompt {
           cursor.to(0) +
           [
             style.symbol(this.done, this.aborted),
-            color.bold(this.msg),
+            bold(this.msg),
             style.delimiter(false),
-            this.done
-              ? color.green(this.value ? 'yes' : 'no')
-              : color.gray(this.initialValue ? '(Y/n)' : '(y/N)')
-          ].join(' ')
+            this.done ? green(this.value ? 'yes' : 'no') : gray(this.initialValue ? '(Y/n)' : '(y/N)'),
+          ].join(' '),
       );
     }
   }

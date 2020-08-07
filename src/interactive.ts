@@ -1,6 +1,5 @@
-// @ts-ignore
 import { cursor, erase } from 'sisteransi';
-import tc from 'turbocolor';
+import { dim } from 'colorette';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 import { prompt } from './vendor/prompts';
@@ -31,7 +30,7 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
 }
 
 async function askStarterName(): Promise<string> {
-  const { starterName }:any = await prompt([
+  const { starterName }: any = await prompt([
     {
       type: 'select',
       name: 'starterName',
@@ -39,10 +38,10 @@ async function askStarterName(): Promise<string> {
       choices: getChoices(),
     },
     {
-      type: (prev: any) => prev === null ? 'text' : null,
+      type: (prev: any) => (prev === null ? 'text' : null),
       name: 'starterName',
       message: 'Type a custom starter',
-    }
+    },
   ]);
   if (!starterName) {
     throw new Error(`No starter was provided, try again.`);
@@ -53,24 +52,24 @@ async function askStarterName(): Promise<string> {
 function getChoices() {
   const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
   return [
-    ...STARTERS
-      .filter(s => s.hidden !== true)
-      .map(s => {
-        const description = s.description ? tc.dim(s.description) : '';
-        return {
-          title: `${padEnd(s.name, maxLength)}   ${description}`,
-          value: s.name
-        };
-      })
+    ...STARTERS.filter(s => s.hidden !== true).map(s => {
+      const description = s.description ? dim(s.description) : '';
+      return {
+        title: `${padEnd(s.name, maxLength)}   ${description}`,
+        value: s.name,
+      };
+    }),
   ];
 }
 
 async function askProjectName() {
-  const { projectName }:any = await prompt([{
-    type: 'text',
-    name: 'projectName',
-    message: 'Project name',
-  }]);
+  const { projectName }: any = await prompt([
+    {
+      type: 'text',
+      name: 'projectName',
+      message: 'Project name',
+    },
+  ]);
   if (!projectName) {
     throw new Error(`No project name was provided, try again.`);
   }
@@ -78,12 +77,14 @@ async function askProjectName() {
 }
 
 async function askConfirm(starter: Starter, projectName: string) {
-  const { confirm }:any = await prompt([{
-    type: 'confirm',
-    name: 'confirm',
-    message: 'Confirm?',
-    initial: true
-  }]);
+  const { confirm }: any = await prompt([
+    {
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Confirm?',
+      initial: true,
+    },
+  ]);
   return confirm;
 }
 
@@ -95,7 +96,7 @@ function padEnd(str: string, targetLength: number, padString = ' ') {
 
   targetLength = targetLength - str.length;
   if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
+    padString += padString.repeat(targetLength / padString.length);
   }
 
   return String(str) + padString.slice(0, targetLength);

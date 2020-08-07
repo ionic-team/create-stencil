@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "allowJs": true,
-    "module": "es2015",
+    "module": "esnext",
     "target": "es2017",
     "strict": true,
     "noEmitOnError": false,
@@ -13,7 +13,5 @@
     "emitDecoratorMetadata": true,
     "outDir": "dist/src"
   },
-  "files": [
-    "src/index.ts"
-  ]
+  "files": ["src/index.ts"]
 }

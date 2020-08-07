@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import { fromBuffer } from 'yauzl';
 
-
 export function unZipBuffer(buffer: Buffer, projectName: string) {
   return new Promise((resolve, reject) => {
     fromBuffer(buffer, { lazyEntries: true }, handleZipFile(projectName, resolve, reject));
@@ -10,7 +9,6 @@ export function unZipBuffer(buffer: Buffer, projectName: string) {
 }
 
 function handleZipFile(projectName: string, resolve: any, reject: any) {
-
   return (err: any, zipfile: any) => {
     if (err) {
       throw err;
@@ -49,12 +47,11 @@ function handleZipFile(projectName: string, resolve: any, reject: any) {
       resolve();
     });
   };
-
 }
 
 function mkdirp(dir: string, cb: any) {
   if (dir === '.') return cb();
-  fs.stat(dir, (err) => {
+  fs.stat(dir, err => {
     if (err == null) return cb(); // already exists
 
     const parent = path.dirname(dir);

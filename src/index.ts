@@ -1,5 +1,4 @@
-// @ts-ignore
-import tc from 'turbocolor';
+import { red } from 'colorette';
 import { createApp } from './create-app';
 import { runInteractive } from './interactive';
 import { getStarterRepo } from './starters';
@@ -31,24 +30,18 @@ async function run() {
 
   nodeVersionWarning();
 
-  let didError = false
+  let didError = false;
   try {
     if (args.length === 2) {
-      await createApp(
-        getStarterRepo(args[0]),
-        args[1],
-        autoRun
-      );
-
+      await createApp(getStarterRepo(args[0]), args[1], autoRun);
     } else if (args.length < 2) {
       await runInteractive(args[0], autoRun);
-
     } else {
       throw new Error(USAGE_DOCS);
     }
   } catch (e) {
     didError = true;
-    console.error(`\n${tc.red('✖')} ${e.message}\n`);
+    console.error(`\n${red('✖')} ${e.message}\n`);
   }
   cleanup(didError);
 }

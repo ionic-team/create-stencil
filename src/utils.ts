@@ -1,7 +1,7 @@
 import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
-import tc from 'turbocolor';
+import { yellow } from 'colorette';
 import { promisify } from 'util';
 
 const childrenProcesses: ChildProcess[] = [];
@@ -40,7 +40,7 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
     const p = spawn('npm', [command], {
       shell: true,
       stdio,
-      cwd: projectPath
+      cwd: projectPath,
     });
     p.once('exit', () => resolve());
     p.once('error', reject);
@@ -50,7 +50,7 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
 
 export function rimraf(dir_path: string) {
   if (fs.existsSync(dir_path)) {
-    fs.readdirSync(dir_path).forEach((entry) => {
+    fs.readdirSync(dir_path).forEach(entry => {
       const entry_path = join(dir_path, entry);
       if (fs.lstatSync(entry_path).isDirectory()) {
         rimraf(entry_path);
@@ -70,7 +70,7 @@ export function printDuration(duration: number) {
   if (duration > 1000) {
     return `in ${(duration / 1000).toFixed(2)} s`;
   } else {
-    const ms = parseFloat((duration).toFixed(3));
+    const ms = parseFloat(duration.toFixed(3));
     return `in ${ms} ms`;
   }
 }
@@ -91,7 +91,13 @@ export function nodeVersionWarning() {
     const major = parseInt(v[0], 10);
     const minor = parseInt(v[1], 10);
     if (major < 8 || (major === 8 && minor < 9)) {
-      console.log(tc.yellow(`Your current version of Node is ${process.version}, however the recommendation is a minimum of Node 8.x LTS. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`));
+      console.log(
+        yellow(
+          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node 8.x LTS. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`,
+        ),
+      );
     }
-  } catch (e) { return; }
+  } catch (e) {
+    return;
+  }
 }

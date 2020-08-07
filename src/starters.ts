@@ -1,4 +1,3 @@
-
 export interface Starter {
   name: string;
   repo: string;
@@ -12,29 +11,28 @@ export const STARTERS: Starter[] = [
     name: 'ionic-pwa',
     repo: 'ionic-team/ionic-pwa-toolkit',
     description: 'Everything you need to build fast, production ready PWAs',
-    docs: 'https://ionicframework.com/docs'
+    docs: 'https://ionicframework.com/docs',
   },
   {
     name: 'app',
     repo: 'ionic-team/stencil-app-starter',
     description: 'Minimal starter for building a Stencil app or website',
-    docs: 'https://github.com/ionic-team/stencil-app-starter'
+    docs: 'https://github.com/ionic-team/stencil-app-starter',
   },
   {
     name: 'component',
     repo: 'ionic-team/stencil-component-starter',
     description: 'Collection of web components that can be used anywhere',
-    docs: 'https://github.com/ionic-team/stencil-component-starter'
+    docs: 'https://github.com/ionic-team/stencil-component-starter',
   },
   {
     name: 'components',
     repo: 'ionic-team/stencil-component-starter',
     description: 'Collection of web components that can be used anywhere',
     docs: 'https://github.com/ionic-team/stencil-component-starter',
-    hidden: true
-  }
+    hidden: true,
+  },
 ];
-
 
 export function getStarterRepo(starterName: string): Starter {
   if (starterName.includes('/')) {
@@ -49,4 +47,3 @@ export function getStarterRepo(starterName: string): Starter {
   }
   return repo;
 }
-
