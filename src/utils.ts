@@ -89,15 +89,12 @@ export function nodeVersionWarning() {
   try {
     const v = process.version.replace('v', '').split('.');
     const major = parseInt(v[0], 10);
-    const minor = parseInt(v[1], 10);
-    if (major < 8 || (major === 8 && minor < 9)) {
+    if (major < 10) {
       console.log(
         yellow(
-          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node 8.x LTS. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`,
+          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node v10. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`,
         ),
       );
     }
-  } catch (e) {
-    return;
-  }
+  } catch (e) {}
 }
