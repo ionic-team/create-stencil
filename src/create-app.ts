@@ -49,6 +49,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   ${dim('We suggest that you begin by typing:')}
 
    ${dim(terminalPrompt())} ${green('cd')} ${projectName}
+   ${dim(terminalPrompt())} ${green('npm install')}
    ${dim(terminalPrompt())} ${green('npm start')}
 ${renderDocs(starter)}
 
