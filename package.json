@@ -3,6 +3,9 @@
   "version": "1.10.1",
   "description": "Quickly create a new stencil application: npm init stencil",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "start": "node index.js",
     "build.tsc": "tsc",
