@@ -4,7 +4,8 @@ import { Starter } from './starters';
 import * as HttpsProxyAgentModule from 'https-proxy-agent';
 
 export function downloadStarter(starter: Starter) {
-  return downloadFromURL(`https://github.com/${starter.repo}/archive/master.zip`);
+  const hostUrl = process.env.npm_config_stencil_download_url || 'https://github.com';
+  return downloadFromURL(`${hostUrl}/${starter.repo}/archive/master.zip`);
 }
 
 function downloadFromURL(url: string): Promise<Buffer> {

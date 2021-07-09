@@ -33,7 +33,7 @@ npm init stencil app my-stencil-app
 
 ### Using a proxy
 
-If you are behind a proxy, configure `https_proxy` environment variable.
+If you are behind a proxy, configure `https_proxy` environment variable. Additionally, if you are self-hosting a repository, you can set `STENCIL_DOWNLOAD_URL=https://your-on-prem-registry.com` in your npm config (`.npmrc`) file to download the starter app from this registry. The default is `https://github.com`.
 
 ## Built-in starters
 
