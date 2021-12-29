@@ -26,12 +26,6 @@ export const STARTERS: Starter[] = [
     description: 'Minimal starter for building a Stencil app or website',
     docs: 'https://github.com/ionic-team/stencil-app-starter',
   },
-  {
-    name: 'ionic-pwa',
-    repo: 'ionic-team/ionic-pwa-toolkit',
-    description: '(deprecated) Everything you need to build fast, production ready PWAs',
-    docs: 'https://ionicframework.com/docs',
-  },
 ];
 
 export function getStarterRepo(starterName: string): Starter {

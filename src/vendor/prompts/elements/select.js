@@ -1,4 +1,4 @@
-import { bold, cyan, gray, green, yellow } from 'colorette';
+import { bold, cyan, gray, green } from 'colorette';
 import { Prompt } from './prompt';
 import { style, clear, figures } from '../util';
 import { erase, cursor } from 'sisteransi';
@@ -98,8 +98,7 @@ export class SelectPrompt extends Prompt {
         '\n\n' +
           this.values
             .map((v, i) => {
-              let title = v.title.replace('(deprecated)', yellow('(deprecated)'));
-              title = this.cursor === i ? cyan(title) : title;
+              let title = this.cursor === i ? cyan(v.title) : v.title;
               let prefix = this.cursor === i ? cyan(figures.pointer) + ' ' : '  ';
               return `${prefix} ${title}`;
             })
