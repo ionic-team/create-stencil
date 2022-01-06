@@ -12,7 +12,6 @@
     "build.dev": "npm run build.tsc && npm run build.bundle",
     "dev": "npm run build.dev && npm start",
     "test": "echo \"TODO(STENCIL-327): Add tests to create-stencil CLI\"",
-    "version": "npm build",
     "release": "np"
   },
   "engines": {
