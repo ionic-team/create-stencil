@@ -36,6 +36,14 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   const time = printDuration(Date.now() - startT);
   console.log(`${green('✔')} ${bold('All setup')} ${onlyUnix('🎉')} ${dim(time)}
 
+  ${dim('We suggest that you begin by typing:')}
+
+  ${dim(terminalPrompt())} ${green('cd')} ${projectName}
+  ${dim(terminalPrompt())} ${green('npm install')}
+  ${dim(terminalPrompt())} ${green('npm start')}
+
+  ${dim('You may find the following commands will be helpful:')}
+
   ${dim(terminalPrompt())} ${green('npm start')}
     Starts the development server.
 
@@ -45,12 +53,6 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   ${dim(terminalPrompt())} ${green('npm test')}
     Starts the test runner.
 
-
-  ${dim('We suggest that you begin by typing:')}
-
-   ${dim(terminalPrompt())} ${green('cd')} ${projectName}
-   ${dim(terminalPrompt())} ${green('npm install')}
-   ${dim(terminalPrompt())} ${green('npm start')}
 ${renderDocs(starter)}
 
   Happy coding! 🎈
