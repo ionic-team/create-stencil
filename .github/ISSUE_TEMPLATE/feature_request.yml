@@ -22,7 +22,7 @@ body:
   - type: textarea
     attributes:
       label: Describe the Use Case
-      description: A clear and concise use case for what problem this feature would solve.
+      description: A clear and concise use case for this feature.
     validations:
       required: true
   - type: textarea
