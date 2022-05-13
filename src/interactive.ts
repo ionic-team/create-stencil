@@ -52,13 +52,15 @@ async function askStarterName(): Promise<string> {
 function getChoices() {
   const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
   return [
-    ...STARTERS.filter(s => s.hidden !== true).map(s => {
-      const description = s.description ? dim(s.description) : '';
-      return {
-        title: `${padEnd(s.name, maxLength)}   ${description}`,
-        value: s.name,
-      };
-    }),
+    ...STARTERS
+      .filter(s => s.hidden !== true)
+      .map(s => {
+        const description = s.description ? dim(s.description) : '';
+        return {
+          title: `${padEnd(s.name, maxLength)}   ${description}`,
+          value: s.name,
+        };
+      }),
   ];
 }
 
