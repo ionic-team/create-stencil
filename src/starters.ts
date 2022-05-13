@@ -4,6 +4,7 @@ export interface Starter {
   description?: string;
   docs?: string;
   hidden?: boolean;
+  isCommunity?: boolean;
 }
 
 export const STARTERS: Starter[] = [
@@ -25,6 +26,7 @@ export const STARTERS: Starter[] = [
     repo: 'ionic-team/stencil-app-starter',
     description: 'Minimal starter for building a Stencil app or website',
     docs: 'https://github.com/ionic-team/stencil-app-starter',
+    isCommunity: true,
   },
 ];
 

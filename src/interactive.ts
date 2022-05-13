@@ -4,6 +4,8 @@ import { dim } from 'colorette';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 
+const COMMUNITY_PREFIX = '[Community]';
+
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   process.stdout.write(erase.screen);
   process.stdout.write(cursor.to(0, 1));
@@ -34,7 +36,7 @@ async function askStarterName(): Promise<string> {
     {
       type: 'select',
       name: 'starterName',
-      message: 'Pick a starter',
+      message: 'Select a starter project. Starters marked as ' + COMMUNITY_PREFIX + ' are developed by the Stencil Community, rather than Ionic. For more information on the Stencil Community, please see https://github.com/stencil-community',
       choices: getChoices(),
     },
     {
@@ -50,18 +52,22 @@ async function askStarterName(): Promise<string> {
 }
 
 function getChoices() {
-  const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
+  const maxLength = Math.max(...STARTERS.map(s => generateStarterName(s).length)) + 1;
   return [
     ...STARTERS
       .filter(s => s.hidden !== true)
       .map(s => {
         const description = s.description ? dim(s.description) : '';
         return {
-          title: `${padEnd(s.name, maxLength)}   ${description}`,
+          title: `${padEnd(generateStarterName(s), maxLength)}   ${description}`,
           value: s.name,
         };
       }),
   ];
+}
+
+function generateStarterName(starter: Starter): string {
+  return starter.isCommunity ? `${COMMUNITY_PREFIX} ${starter.name}` : starter.name;
 }
 
 async function askProjectName() {
