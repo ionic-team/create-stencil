@@ -4,6 +4,9 @@ import { dim } from 'colorette';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 
+/**
+ * A prefix for community-driven projects
+ */
 const COMMUNITY_PREFIX = '[Community]';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
@@ -31,6 +34,10 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
   }
 }
 
+/**
+ * Prompt the user for the name of a starter project to bootstrap with
+ * @returns the name of the starter project to use
+ */
 async function askStarterName(): Promise<string> {
   const { starterName }: any = await prompt([
     {
@@ -51,7 +58,11 @@ async function askStarterName(): Promise<string> {
   return starterName;
 }
 
-function getChoices() {
+/**
+ * Generate a terminal-friendly list of options for the user to select from
+ * @returns a formatted list of starter options
+ */
+function getChoices(): ReadonlyArray<{title: string, value: string}> {
   const maxLength = Math.max(...STARTERS.map(s => generateStarterName(s).length)) + 1;
   return [
     ...STARTERS
@@ -66,7 +77,13 @@ function getChoices() {
   ];
 }
 
+/**
+ * Generate the user-displayed name of the starter project
+ * @param starter the starter project to format
+ * @returns the formatted name
+ */
 function generateStarterName(starter: Starter): string {
+  // ensure that community packages are differentiated from those supported by Ionic/the Stencil team
   return starter.isCommunity ? `${COMMUNITY_PREFIX} ${starter.name}` : starter.name;
 }
 
