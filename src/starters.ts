@@ -33,7 +33,7 @@ export interface Starter {
 /**
  * Existing Stencil project starters available for CLI users to select from
  */
-export const STARTERS: Starter[] = [
+export const STARTERS: ReadonlyArray<Starter> = [
   {
     name: 'component',
     repo: 'ionic-team/stencil-component-starter',
