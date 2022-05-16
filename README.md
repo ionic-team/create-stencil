@@ -16,7 +16,7 @@ The create-stencil CLI offers the following starters for bootstrapping your proj
 
 - `component` - allows one to spin up a component library containing one or more Stencil components. Best suited for
 teams/individuals looking to reuse components across one or more applications.
-- `application` - allows one to spin up an application, complete with routing. This is a **community-driven** project,
+- `app` - allows one to spin up an application, complete with routing. This is a **community-driven** project,
 and is not formally owned by the Stencil team
 
 ## Usage
@@ -46,8 +46,8 @@ If you are behind a proxy, configure `https_proxy` environment variable.
 
 ## Built-in starters
 
-- [app](https://github.com/ionic-team/stencil-app-starter)
-- [components](https://github.com/ionic-team/stencil-component-starter)
+- [app (community-maintained)](https://github.com/stencil-community/stencil-app-starter)
+- [component](https://github.com/ionic-team/stencil-component-starter)
 
 ## Developing locally
 
