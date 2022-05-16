@@ -10,6 +10,15 @@ npm i -g npm
 
 To install latest version of `npm`
 
+## Starters
+
+The create-stencil CLI offers the following starters for bootstrapping your project:
+
+- `component` - allows one to spin up a component library containing one or more Stencil components. Best suited for
+teams/individuals looking to reuse components across one or more applications.
+- `application` - allows one to spin up an application, complete with routing. This is a **community-driven** project,
+and is not formally owned by the Stencil team
+
 ## Usage
 
 
@@ -28,7 +37,7 @@ npm init stencil <starter> <projectName>
 Example:
 
 ```
-npm init stencil app my-stencil-app
+npm init stencil component my-stencil-library
 ```
 
 ### Using a proxy
