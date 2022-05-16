@@ -43,7 +43,7 @@ async function askStarterName(): Promise<string> {
     {
       type: 'select',
       name: 'starterName',
-      message: `Select a starter project. Starters marked as ${COMMUNITY_PREFIX} are developed by the Stencil Community, rather than Ionic. For more information on the Stencil Community, please see https://github.com/stencil-community`,
+      message: 'Pick a starter',
       choices: getChoices(),
     },
     {
