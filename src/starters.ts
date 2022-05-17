@@ -49,9 +49,9 @@ export const STARTERS: ReadonlyArray<Starter> = [
   },
   {
     name: 'app',
-    repo: 'ionic-team/stencil-app-starter',
+    repo: 'stencil-community/stencil-app-starter',
     description: 'Minimal starter for building a Stencil app or website',
-    docs: 'https://github.com/ionic-team/stencil-app-starter',
+    docs: 'https://github.com/stencil-community/stencil-app-starter',
     isCommunity: true,
   },
 ];
