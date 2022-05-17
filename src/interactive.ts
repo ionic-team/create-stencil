@@ -7,7 +7,7 @@ import { STARTERS, Starter, getStarterRepo } from './starters';
 /**
  * A prefix for community-driven projects
  */
-const COMMUNITY_PREFIX = '[Community]';
+const COMMUNITY_PREFIX = '[community]';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   process.stdout.write(erase.screen);
@@ -43,7 +43,16 @@ async function askStarterName(): Promise<string> {
     {
       type: 'select',
       name: 'starterName',
-      message: 'Pick a starter',
+      /**
+       * the width of this message is intentionally kept to ~80 characters. this is a slightly arbitrary decision to
+       * prevent one long single line message in wide terminal windows. this _should_ be changeable without any
+       * negative impact on the code.
+       */
+      message: `Select a starter project.
+
+Starters marked as ${COMMUNITY_PREFIX} are developed by the Stencil Community,
+rather than Ionic. For more information on the Stencil Community, please see
+https://github.com/stencil-community`,
       choices: getChoices(),
     },
     {
