@@ -93,7 +93,7 @@ function getChoices(): ReadonlyArray<{title: string, value: string}> {
  */
 function generateStarterName(starter: Starter): string {
   // ensure that community packages are differentiated from those supported by Ionic/the Stencil team
-  return starter.isCommunity ? `${COMMUNITY_PREFIX} ${starter.name}` : starter.name;
+  return starter.isCommunity ? `${starter.name} ${COMMUNITY_PREFIX}` : starter.name;
 }
 
 async function askProjectName() {
