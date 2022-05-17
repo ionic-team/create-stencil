@@ -1,8 +1,8 @@
+import { prompt } from 'prompts';
 import { cursor, erase } from 'sisteransi';
 import { dim } from 'colorette';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
-import { prompt } from './vendor/prompts';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   process.stdout.write(erase.screen);
