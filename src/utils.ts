@@ -32,7 +32,7 @@ export function cleanup(didError = false) {
 }
 
 export function killChildren() {
-  childrenProcesses.forEach(p => p.kill('SIGINT'));
+  childrenProcesses.forEach((p) => p.kill('SIGINT'));
 }
 
 export function npm(command: string, projectPath: string, stdio: any = 'ignore') {
@@ -50,7 +50,7 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
 
 export function rimraf(dir_path: string) {
   if (fs.existsSync(dir_path)) {
-    fs.readdirSync(dir_path).forEach(entry => {
+    fs.readdirSync(dir_path).forEach((entry) => {
       const entry_path = join(dir_path, entry);
       if (fs.lstatSync(entry_path).isDirectory()) {
         rimraf(entry_path);
@@ -92,8 +92,8 @@ export function nodeVersionWarning() {
     if (major < 10) {
       console.log(
         yellow(
-          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node v10. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`,
-        ),
+          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node v10. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`
+        )
       );
     }
   } catch (e) {}

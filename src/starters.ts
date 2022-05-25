@@ -71,7 +71,7 @@ export function getStarterRepo(starterName: string): Starter {
       repo: starterName,
     };
   }
-  const repo = STARTERS.find(starter => starter.name === starterName);
+  const repo = STARTERS.find((starter) => starter.name === starterName);
   if (!repo) {
     throw new Error(`Starter "${starterName}" does not exist.`);
   }
