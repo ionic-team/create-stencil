@@ -36,7 +36,7 @@ export function killChildren() {
 }
 
 export function npm(command: string, projectPath: string, stdio: any = 'ignore') {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const p = spawn('npm', [command], {
       shell: true,
       stdio,
@@ -88,7 +88,8 @@ export const renameAsync = promisify(fs.rename);
 export function nodeVersionWarning() {
   try {
     const v = process.version.replace('v', '').split('.');
-    const major = parseInt(v[0], 10);
+    // assume a major version number of '0' if for some reason the major version is parsed as `undefined`
+    const major = parseInt(v[0] ?? '0', 10);
     if (major < 10) {
       console.log(
         yellow(
