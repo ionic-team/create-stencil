@@ -1,0 +1,3 @@
+# the output of the built project
+dist/*
+index.js
