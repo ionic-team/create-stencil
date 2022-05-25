@@ -12,6 +12,9 @@
     "build.dev": "npm run build.tsc && npm run build.bundle",
     "dev": "npm run build.dev && npm start",
     "test": "echo \"TODO(STENCIL-327): Add tests to create-stencil CLI\"",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./**/*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np"
   },
   "engines": {
@@ -25,6 +28,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@ionic/prettier-config": "^2.0.0",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
@@ -36,6 +40,7 @@
     "colorette": "^1.2.1",
     "https-proxy-agent": "^5.0.0",
     "np": "^6.3.2",
+    "prettier": "2.6.2",
     "replace-in-file": "^6.1.0",
     "rollup": "^2.23.0",
     "sisteransi": "^1.0.5",
@@ -53,5 +58,6 @@
     "cli",
     "progress web app",
     "ionic"
-  ]
+  ],
+  "prettier": "@ionic/prettier-config"
 }
