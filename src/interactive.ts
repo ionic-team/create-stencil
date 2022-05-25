@@ -71,18 +71,16 @@ https://github.com/stencil-community`,
  * Generate a terminal-friendly list of options for the user to select from
  * @returns a formatted list of starter options
  */
-function getChoices(): ReadonlyArray<{title: string, value: string}> {
-  const maxLength = Math.max(...STARTERS.map(s => generateStarterName(s).length)) + 1;
+function getChoices(): ReadonlyArray<{ title: string; value: string }> {
+  const maxLength = Math.max(...STARTERS.map((s) => generateStarterName(s).length)) + 1;
   return [
-    ...STARTERS
-      .filter(s => s.hidden !== true)
-      .map(s => {
-        const description = s.description ? dim(s.description) : '';
-        return {
-          title: `${padEnd(generateStarterName(s), maxLength)}   ${description}`,
-          value: s.name,
-        };
-      }),
+    ...STARTERS.filter((s) => s.hidden !== true).map((s) => {
+      const description = s.description ? dim(s.description) : '';
+      return {
+        title: `${padEnd(generateStarterName(s), maxLength)}   ${description}`,
+        value: s.name,
+      };
+    }),
   ];
 }
 

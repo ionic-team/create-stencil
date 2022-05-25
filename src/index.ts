@@ -17,7 +17,7 @@ async function run() {
   const help = args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0;
   const info = args.indexOf('--info') >= 0;
 
-  args = args.filter(a => a[0] !== '-');
+  args = args.filter((a) => a[0] !== '-');
 
   if (info) {
     console.log('create-stencil:', getPkgVersion(), '\n');

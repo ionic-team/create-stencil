@@ -16,13 +16,13 @@ function downloadFromURL(url: string): Promise<Buffer> {
     options.agent = agent;
   }
   return new Promise((resolve, reject) => {
-    get(options, res => {
+    get(options, (res) => {
       if (res.statusCode === 302) {
         downloadFromURL(res.headers.location!).then(resolve, reject);
       } else {
         const data: any[] = [];
 
-        res.on('data', chunk => data.push(chunk));
+        res.on('data', (chunk) => data.push(chunk));
         res.on('end', () => {
           resolve(Buffer.concat(data));
         });
