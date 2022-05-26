@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
     "allowJs": true,
-    "module": "esnext",
-    "target": "es2017",
-    "strict": true,
-    "noEmitOnError": false,
-    "sourceMap": false,
-    "declaration": false,
     "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "exactOptionalPropertyTypes": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "dist/src",
-    "useUnknownInCatchVariables": true,
-    "exactOptionalPropertyTypes": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "outDir": "dist/src",
+    "sourceMap": false,
+    "strict": true,
+    "target": "es2017",
+    "useUnknownInCatchVariables": true
   },
   "files": ["src/index.ts"]
 }
