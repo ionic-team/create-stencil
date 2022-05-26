@@ -8,7 +8,7 @@ describe('starters', () => {
       const starterInfo = getStarterRepo(starterRepo);
 
       expect(starterInfo).toEqual<Starter>({
-        name: 'starterRepo',
+        name: starterRepo,
         repo: starterRepo,
       });
     });
