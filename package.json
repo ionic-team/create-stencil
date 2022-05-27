@@ -62,5 +62,9 @@
     "progress web app",
     "ionic"
   ],
-  "prettier": "@ionic/prettier-config"
+  "prettier": "@ionic/prettier-config",
+  "volta": {
+    "node": "16.15.0",
+    "npm": "8.11.0"
+  }
 }
