@@ -2,7 +2,6 @@ import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
 import { yellow } from 'colorette';
-import { promisify } from 'util';
 
 const childrenProcesses: ChildProcess[] = [];
 let tmpDirectory: string | null = null;
@@ -83,8 +82,6 @@ export function terminalPrompt() {
   return isWin() ? '>' : '$';
 }
 
-export const renameAsync = promisify(fs.rename);
-
 export function nodeVersionWarning() {
   try {
     const v = process.version.replace('v', '').split('.');
@@ -99,3 +96,11 @@ export function nodeVersionWarning() {
     }
   } catch (e) {}
 }
+
+/**
+ * Returns the result of attempting to `require` the project's `package.json`
+ * @returns the result of a `require()` statement
+ */
+export const getPackageJson = () => {
+  return require('./package.json');
+};

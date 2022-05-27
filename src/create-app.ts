@@ -5,7 +5,7 @@ import { bold, cyan, dim, green } from 'colorette';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
-import { npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
+import { npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
 import { replaceInFile } from 'replace-in-file';
 
 const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
@@ -98,7 +98,7 @@ async function prepare(starter: Starter) {
 
   return async (projectName: string) => {
     const filePath = join(baseDir, projectName);
-    await renameAsync(tmpPath, filePath);
+    await fs.promises.rename(tmpPath, filePath);
     await replaceInFile({
       files: [join(filePath, '*'), join(filePath, 'src/*')],
       from: /stencil-starter-project-name/g,
