@@ -5,7 +5,7 @@ import { bold, cyan, dim, green } from 'colorette';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
-import { npm, onlyUnix, printDuration, renameAsync, setTmpDirectory, terminalPrompt } from './utils';
+import { npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
 import { replaceInFile } from 'replace-in-file';
 
 const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
@@ -36,6 +36,14 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   const time = printDuration(Date.now() - startT);
   console.log(`${green('✔')} ${bold('All setup')} ${onlyUnix('🎉')} ${dim(time)}
 
+  ${dim('We suggest that you begin by typing:')}
+
+  ${dim(terminalPrompt())} ${green('cd')} ${projectName}
+  ${dim(terminalPrompt())} ${green('npm install')}
+  ${dim(terminalPrompt())} ${green('npm start')}
+
+  ${dim('You may find the following commands will be helpful:')}
+
   ${dim(terminalPrompt())} ${green('npm start')}
     Starts the development server.
 
@@ -45,12 +53,6 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   ${dim(terminalPrompt())} ${green('npm test')}
     Starts the test runner.
 
-
-  ${dim('We suggest that you begin by typing:')}
-
-   ${dim(terminalPrompt())} ${green('cd')} ${projectName}
-   ${dim(terminalPrompt())} ${green('npm install')}
-   ${dim(terminalPrompt())} ${green('npm start')}
 ${renderDocs(starter)}
 
   Happy coding! 🎈
@@ -96,7 +98,7 @@ async function prepare(starter: Starter) {
 
   return async (projectName: string) => {
     const filePath = join(baseDir, projectName);
-    await renameAsync(tmpPath, filePath);
+    await fs.promises.rename(tmpPath, filePath);
     await replaceInFile({
       files: [join(filePath, '*'), join(filePath, 'src/*')],
       from: /stencil-starter-project-name/g,

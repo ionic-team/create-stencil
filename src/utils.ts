@@ -2,7 +2,6 @@ import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
 import { yellow } from 'colorette';
-import { promisify } from 'util';
 
 const childrenProcesses: ChildProcess[] = [];
 let tmpDirectory: string | null = null;
@@ -32,11 +31,11 @@ export function cleanup(didError = false) {
 }
 
 export function killChildren() {
-  childrenProcesses.forEach(p => p.kill('SIGINT'));
+  childrenProcesses.forEach((p) => p.kill('SIGINT'));
 }
 
 export function npm(command: string, projectPath: string, stdio: any = 'ignore') {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const p = spawn('npm', [command], {
       shell: true,
       stdio,
@@ -50,7 +49,7 @@ export function npm(command: string, projectPath: string, stdio: any = 'ignore')
 
 export function rimraf(dir_path: string) {
   if (fs.existsSync(dir_path)) {
-    fs.readdirSync(dir_path).forEach(entry => {
+    fs.readdirSync(dir_path).forEach((entry) => {
       const entry_path = join(dir_path, entry);
       if (fs.lstatSync(entry_path).isDirectory()) {
         rimraf(entry_path);
@@ -83,18 +82,25 @@ export function terminalPrompt() {
   return isWin() ? '>' : '$';
 }
 
-export const renameAsync = promisify(fs.rename);
-
 export function nodeVersionWarning() {
   try {
     const v = process.version.replace('v', '').split('.');
-    const major = parseInt(v[0], 10);
+    // assume a major version number of '0' if for some reason the major version is parsed as `undefined`
+    const major = parseInt(v[0] ?? '0', 10);
     if (major < 10) {
       console.log(
         yellow(
-          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node v10. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`,
-        ),
+          `Your current version of Node is ${process.version}, however the recommendation is a minimum of Node v10. Note that future versions of Stencil will eventually remove support for non-LTS Node versions.`
+        )
       );
     }
   } catch (e) {}
 }
+
+/**
+ * Returns the result of attempting to `require` the project's `package.json`
+ * @returns the result of a `require()` statement
+ */
+export const getPackageJson = () => {
+  return require('./package.json');
+};

@@ -1,8 +1,13 @@
+import { prompt } from 'prompts';
 import { cursor, erase } from 'sisteransi';
 import { dim } from 'colorette';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
-import { prompt } from './vendor/prompts';
+
+/**
+ * A prefix for community-driven projects
+ */
+const COMMUNITY_PREFIX = '[community]';
 
 export async function runInteractive(starterName: string | undefined, autoRun: boolean) {
   process.stdout.write(erase.screen);
@@ -29,12 +34,25 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
   }
 }
 
+/**
+ * Prompt the user for the name of a starter project to bootstrap with
+ * @returns the name of the starter project to use
+ */
 async function askStarterName(): Promise<string> {
   const { starterName }: any = await prompt([
     {
       type: 'select',
       name: 'starterName',
-      message: 'Pick a starter',
+      /**
+       * the width of this message is intentionally kept to ~80 characters. this is a slightly arbitrary decision to
+       * prevent one long single line message in wide terminal windows. this _should_ be changeable without any
+       * negative impact on the code.
+       */
+      message: `Select a starter project.
+
+Starters marked as ${COMMUNITY_PREFIX} are developed by the Stencil Community,
+rather than Ionic. For more information on the Stencil Community, please see
+https://github.com/stencil-community`,
       choices: getChoices(),
     },
     {
@@ -49,17 +67,31 @@ async function askStarterName(): Promise<string> {
   return starterName;
 }
 
-function getChoices() {
-  const maxLength = Math.max(...STARTERS.map(s => s.name.length)) + 1;
+/**
+ * Generate a terminal-friendly list of options for the user to select from
+ * @returns a formatted list of starter options
+ */
+function getChoices(): ReadonlyArray<{ title: string; value: string }> {
+  const maxLength = Math.max(...STARTERS.map((s) => generateStarterName(s).length)) + 1;
   return [
-    ...STARTERS.filter(s => s.hidden !== true).map(s => {
+    ...STARTERS.filter((s) => s.hidden !== true).map((s) => {
       const description = s.description ? dim(s.description) : '';
       return {
-        title: `${padEnd(s.name, maxLength)}   ${description}`,
+        title: `${padEnd(generateStarterName(s), maxLength)}   ${description}`,
         value: s.name,
       };
     }),
   ];
+}
+
+/**
+ * Generate the user-displayed name of the starter project
+ * @param starter the starter project to format
+ * @returns the formatted name
+ */
+function generateStarterName(starter: Starter): string {
+  // ensure that community packages are differentiated from those supported by Ionic/the Stencil team
+  return starter.isCommunity ? `${starter.name} ${COMMUNITY_PREFIX}` : starter.name;
 }
 
 async function askProjectName() {

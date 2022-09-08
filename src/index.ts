@@ -17,7 +17,7 @@ async function run() {
   const help = args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0;
   const info = args.indexOf('--info') >= 0;
 
-  args = args.filter(a => a[0] !== '-');
+  args = args.filter((a) => a[0] !== '-');
 
   if (info) {
     console.log('create-stencil:', getPkgVersion(), '\n');
@@ -33,7 +33,12 @@ async function run() {
   let didError = false;
   try {
     if (args.length === 2) {
-      await createApp(getStarterRepo(args[0]), args[1], autoRun);
+      const starterName = args[0];
+      const projectName = args[1];
+      if (!starterName || !projectName) {
+        throw new Error(USAGE_DOCS);
+      }
+      await createApp(getStarterRepo(starterName), projectName, autoRun);
     } else if (args.length < 2) {
       await runInteractive(args[0], autoRun);
     } else {
@@ -41,7 +46,7 @@ async function run() {
     }
   } catch (e) {
     didError = true;
-    console.error(`\n${red('✖')} ${e.message}\n`);
+    console.error(`\n${red('✖')} ${e instanceof Error ? e.message : e}\n`);
   }
   cleanup(didError);
 }
