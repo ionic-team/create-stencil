@@ -1,6 +1,6 @@
 {
   "name": "create-stencil",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Quickly create a new stencil application: npm init stencil",
   "main": "index.js",
   "files": [
