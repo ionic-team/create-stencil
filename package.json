@@ -44,7 +44,7 @@
     "colorette": "^1.2.1",
     "https-proxy-agent": "^5.0.0",
     "jest": "^28.1.0",
-    "np": "^6.3.2",
+    "np": "^7.6.2",
     "prettier": "2.7.1",
     "replace-in-file": "^6.1.0",
     "rollup": "^2.23.0",
