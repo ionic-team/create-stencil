@@ -18,6 +18,7 @@ The create-stencil CLI offers the following starters for bootstrapping your proj
 teams/individuals looking to reuse components across one or more applications.
 - `app` - allows one to spin up an application, complete with routing. This is a **community-driven** project,
 and is not formally owned by the Stencil team
+- `ionic` - allows one to spin up an ionic PWA, complete with tabs layout and routing. This is also a **community-driven** project.
 
 ## Usage
 
