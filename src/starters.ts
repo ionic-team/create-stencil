@@ -54,6 +54,13 @@ export const STARTERS: ReadonlyArray<Starter> = [
     docs: 'https://github.com/stencil-community/stencil-app-starter',
     isCommunity: true,
   },
+  {
+    name: 'ionic',
+    repo: 'stencil-community/stencil-ionic-starter',
+    description: 'Ionic PWA starter with tabs layout and routes',
+    docs: 'https://github.com/stencil-community/stencil-ionic-starter',
+    isCommunity: true,
+  },
 ];
 
 /**
