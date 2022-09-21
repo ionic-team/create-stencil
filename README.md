@@ -48,7 +48,7 @@ If you are behind a proxy, configure `https_proxy` environment variable.
 ## Built-in starters
 
 - [app (community-maintained)](https://github.com/stencil-community/stencil-app-starter)
-- [ionic (community-maintained)](https://github.com/stencil-community/stencil-ionic-starter)
+- [ionic-pwa (community-maintained)](https://github.com/stencil-community/stencil-ionic-starter)
 - [component](https://github.com/ionic-team/stencil-component-starter)
 
 ## Developing locally
