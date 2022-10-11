@@ -34,7 +34,7 @@
     "@ionic/prettier-config": "^2.0.0",
     "@rollup/plugin-commonjs": "^23.0.0",
     "@rollup/plugin-json": "^5.0.0",
-    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/cli-spinner": "^0.2.0",
     "@types/jest": "^27.5.1",
     "@types/node": "^16.11.59",
