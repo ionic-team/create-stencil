@@ -1,3 +1,4 @@
 # the output of the built project
 dist/*
+index.cjs
 index.js

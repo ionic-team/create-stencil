@@ -5,7 +5,7 @@ import json from '@rollup/plugin-json';
 export default {
   input: 'dist/src/index.js',
   output: {
-    file: 'index.js',
+    file: 'index.cjs',
     format: 'cjs',
     strict: false,
     banner: '#! /usr/bin/env node\n',

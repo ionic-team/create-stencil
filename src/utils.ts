@@ -1,8 +1,10 @@
+import { createRequire } from 'module';
 import { ChildProcess, spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
 import { yellow } from 'colorette';
 
+const require = createRequire(import.meta.url);
 const childrenProcesses: ChildProcess[] = [];
 let tmpDirectory: string | null = null;
 

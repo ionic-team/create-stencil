@@ -2,16 +2,16 @@
   "name": "create-stencil",
   "version": "3.1.0",
   "description": "Quickly create a new stencil application: npm init stencil",
-  "main": "index.js",
+  "main": "index.cjs",
   "type": "module",
   "files": [
-    "index.js"
+    "index.cjs"
   ],
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.cjs",
     "build.tsc": "tsc",
     "build.bundle": "rollup -c",
-    "minify": "terser --compress --mangle --toplevel --output index.js -- index.js",
+    "minify": "terser --compress --mangle --toplevel --output index.cjs -- index.cjs",
     "build": "npm run build.tsc && npm run build.bundle && npm run minify",
     "build.dev": "npm run build.tsc && npm run build.bundle",
     "dev": "npm run build.dev && npm start",
@@ -26,7 +26,7 @@
     "npm": ">=6.0.0"
   },
   "bin": {
-    "create-stencil": "index.js"
+    "create-stencil": "index.cjs"
   },
   "dependencies": {
     "prompts": "^2.4.2"
