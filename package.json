@@ -16,7 +16,7 @@
     "dev": "npm run build.dev && npm start",
     "test": "jest",
     "prettier": "npm run prettier.base -- --write",
-    "prettier.base": "prettier \"./**/*.{ts,tsx,js,jsx}\"",
+    "prettier.base": "prettier --cache \"./**/*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np"
   },
