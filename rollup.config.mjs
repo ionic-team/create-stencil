@@ -9,7 +9,9 @@ export default {
     format: 'cjs',
     strict: false,
     banner: '#! /usr/bin/env node\n',
-    preferConst: true,
+    generatedCode: {
+      constBindings: true,
+    },
   },
   plugins: [resolve(), json(), commonjs()],
   external: ['child_process', 'fs', 'path', 'os', 'https', 'readline', 'zlib', 'events', 'stream', 'util', 'buffer'],
