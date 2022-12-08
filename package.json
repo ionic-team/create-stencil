@@ -1,6 +1,6 @@
 {
   "name": "create-stencil",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Quickly create a new stencil application: npm init stencil",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
     "dev": "npm run build.dev && npm start",
     "test": "jest",
     "prettier": "npm run prettier.base -- --write",
-    "prettier.base": "prettier \"./**/*.{ts,tsx,js,jsx}\"",
+    "prettier.base": "prettier --cache \"./**/*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np"
   },
@@ -45,9 +45,9 @@
     "https-proxy-agent": "^5.0.0",
     "jest": "^28.1.0",
     "np": "^7.6.2",
-    "prettier": "2.7.1",
+    "prettier": "2.8.1",
     "replace-in-file": "^6.1.0",
-    "rollup": "^2.23.0",
+    "rollup": "^3.5.1",
     "sisteransi": "^1.0.5",
     "terser": "^5.0.0",
     "ts-jest": "^28.0.3",
