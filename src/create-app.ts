@@ -48,7 +48,7 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
     Starts the development server.
 
   ${dim(terminalPrompt())} ${green('npm run build')}
-    Builds your components/app in production mode.
+    Builds your project in production mode.
 
   ${dim(terminalPrompt())} ${green('npm test')}
     Starts the test runner.
@@ -71,7 +71,8 @@ function renderDocs(starter: Starter) {
   return `
   ${dim('Further reading:')}
 
-   ${dim('-')} ${cyan(docs)}`;
+   ${dim('-')} ${cyan(docs)}
+   ${dim('-')} ${cyan('https://stenciljs.com/docs')}`;
 }
 
 export function prepareStarter(starter: Starter) {
