@@ -1,7 +1,7 @@
 {
   "name": "create-stencil",
   "version": "3.1.6",
-  "description": "Quickly create a new stencil application: npm init stencil",
+  "description": "Quickly create a new stencil component project: npm init stencil",
   "main": "index.js",
   "files": [
     "index.js"
