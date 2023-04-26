@@ -82,7 +82,7 @@ Created by William M. Riley:
 * [Stencil Documentation](https://stenciljs.com/)
 * [Stencil Worldwide Slack](https://stencil-worldwide.slack.com)
 * [Ionic](https://ionicframework.com/)
-* [Ionic Worldwide Slack](http://ionicworldwide.herokuapp.com/)
+* [Ionic Worldwide Discord](https://ionic.link/discord)
 * [Ionicons](http://ionicons.com/)
 
 
