@@ -1,0 +1,37 @@
+name: Build Create Stencil CLI
+
+on:
+  workflow_call:
+  # Make this a reusable workflow, no value needed
+  # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+jobs:
+  build_cli:
+    name: Core
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          # the pull_request_target event will consider the HEAD of `main` to be the SHA to use.
+          # attempt to use the SHA associated with a pull request and fallback to HEAD of `main`
+          ref: ${{ github.event_name == 'pull_request_target' && format('refs/pull/{0}/merge', github.event.number) || '' }}
+          persist-credentials: false
+
+      - name: Get Core Dependencies
+        uses: ./.github/workflows/actions/get-core-dependencies
+
+      - name: CLI Build
+        run: npm run build
+        shell: bash
+
+      - name: Unit Tests
+        run: npm test
+        shell: bash
+
+      - name: Upload Build Artifacts
+        uses: ./.github/workflows/actions/upload-archive
+        with:
+          name: stencil-cli
+          output: stencil-cli-build.zip
+          paths: index.js

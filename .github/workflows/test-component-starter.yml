@@ -1,0 +1,54 @@
+name: Component Starter Smoke Test
+
+on:
+  workflow_call:
+  # Make this a reusable workflow, no value needed
+  # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+jobs:
+  component_test:
+    name: (${{ matrix.os }}.${{ matrix.node }})
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['16', '18', '20']
+        os: ['ubuntu-latest', 'windows-latest']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Get Core Dependencies
+        uses: ./.github/workflows/actions/get-core-dependencies
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+      
+      - name: Download Build Archive
+        uses: ./.github/workflows/actions/download-archive
+        with:
+          name: stencil-cli
+          path: .
+          filename: stencil-cli-build.zip
+
+      - name: Initialize the Project
+        run: node index.js component tmp-component-starter
+        shell: bash
+
+      - name: Install Component Starter Dependencies
+        run: npm install
+        working-directory: ./tmp-component-starter
+        shell: bash
+
+      - name: Build Starter Project
+        run: npm run build
+        working-directory: ./tmp-component-starter
+        shell: bash
+
+      - name: Test Starter Project
+        run: npm run test -- --no-build # the project was just built, don't build it again
+        working-directory: ./tmp-component-starter
+        shell: bash
