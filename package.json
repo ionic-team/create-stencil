@@ -37,7 +37,7 @@
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/cli-spinner": "^0.2.0",
     "@types/jest": "^27.5.1",
-    "@types/node": "^16.18.25",
+    "@types/node": "^20.1.7",
     "@types/prompts": "^2.0.14",
     "@types/yauzl": "^2.9.1",
     "cli-spinner": "^0.2.10",
@@ -67,7 +67,7 @@
   ],
   "prettier": "@ionic/prettier-config",
   "volta": {
-    "node": "16.15.0",
-    "npm": "8.11.0"
+    "node": "20.2.0",
+    "npm": "9.6.6"
   }
 }
