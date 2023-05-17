@@ -1,4 +1,4 @@
-name: Main
+name: CI
 
 on:
   push:
@@ -8,29 +8,20 @@ on:
     branches:
       - '**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  build_cli:
     name: Build Create Stencil CLI
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/build.yml
 
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+  format:
+    name: Format Check
+    uses: ./.github/workflows/format.yml
 
-      - name: Use Node Version from Volta
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version-file: './package.json'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Prettier dry-run
-        run: npm run prettier.dry-run
-        shell: bash
-
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm run test
+  smoke_test:
+    name: Smoke Testing
+    needs: [build_cli]
+    uses: ./.github/workflows/test-component-starter.yml
