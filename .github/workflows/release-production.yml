@@ -1,0 +1,85 @@
+name: 'Production Release (TEST)'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: choice
+        description: Which version should be published?
+        options:
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
+          - patch
+          - minor
+          - major
+        # TODO(STENCIL-841): Remove
+        default: prerelease
+      tag:
+        required: true
+        type: choice
+        description: Which npm tag should this be published to?
+        options:
+          - dev
+          - latest
+        # TODO(STENCIL-841): Remove
+        default: dev
+
+jobs:
+  build_cli:
+    name: Build
+    uses: ./.github/workflows/build.yml
+
+  # generate the prod version from the GH Action input
+  # the output of this job should be the canonical version to use after this job completes
+  get_prod_version:
+    name: Get Prod Build Version
+    runs-on: ubuntu-latest
+    outputs:
+      prod-version: ${{ steps.generate-prod-version.outputs.PROD_VERSION }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Generate Prod Version
+        id: generate-prod-version
+        run: |
+          npm version --no-git-tag-version ${{ inputs.version }}
+          echo "PROD_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_OUTPUT
+        shell: bash
+
+  release_create_stencil_cli:
+    name: Publish Production Build
+    needs: [build_cli, get_prod_version]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      # TODO(STENCIL-841): Publish to NPM with publish-npm action
+
+      - name: Download Build Archive
+        uses: ./.github/workflows/actions/download-archive
+        with:
+          name: stencil-cli
+          path: .
+          filename: stencil-cli-build.zip
+
+      # Remove the ZIP file after we've extracted it - we don't want this committed back to the repo
+      - name: Delete The Archive ZIP File
+        run: rm stencil
+
+      # TODO(STENCIL-841): creating a git tag IFF we're doing a prod release, push it
+      - name: Commit Release Preparations
+        run: |
+          git config user.name "Stencil Release Bot (on behalf of ${{ github.actor }})"
+          git config user.email "stencil-release-bot@ionic.io"
+          git add .
+          git commit -m "v$(cat package.json | jq -r '.version')"
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+       # TODO(STENCIL-841): creating a git tag IFF we're doing a prod release, push it
