@@ -80,7 +80,7 @@ export const commitAllFiles = (): boolean => {
   let wasSuccess = false;
   let createStencilVersion = null;
   try {
-    createStencilVersion = `v${getPkgVersion()}`;
+    createStencilVersion = ` v${getPkgVersion()}`;
   } catch (err: unknown) {
     // do nothing - determining the CLI version isn't strictly needed for a commit message
   }
@@ -89,7 +89,7 @@ export const commitAllFiles = (): boolean => {
     // add all files (including dotfiles)
     execSync('git add -A', { stdio: 'ignore' });
     // commit them
-    const commitMessage = `init with create-stencil ${createStencilVersion ?? ''}`;
+    const commitMessage = `init with create-stencil${createStencilVersion ?? ''}`;
     execSync(`git commit -m "${commitMessage}"`, { stdio: 'ignore' });
     wasSuccess = true;
   } catch (err: unknown) {
