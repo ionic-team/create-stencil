@@ -78,6 +78,7 @@ jobs:
           git config user.email "stencil-release-bot@ionic.io"
           git add .
           git commit -m "v$(cat package.json | jq -r '.version')"
+          git push origin
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
