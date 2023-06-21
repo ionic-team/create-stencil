@@ -81,7 +81,7 @@ Created by William M. Riley:
 
 * [Stencil Documentation](https://stenciljs.com/)
 * [Ionic](https://ionicframework.com/)
-* [Ionic Discord](https://ionic.link/discord)
+* [Ionic Discord](https://chat.stenciljs.com/)
 * [Ionicons](http://ionicons.com/)
 
 
