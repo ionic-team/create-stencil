@@ -80,9 +80,8 @@ Created by William M. Riley:
 ## Related
 
 * [Stencil Documentation](https://stenciljs.com/)
-* [Stencil Worldwide Slack](https://stencil-worldwide.slack.com)
 * [Ionic](https://ionicframework.com/)
-* [Ionic Worldwide Discord](https://ionic.link/discord)
+* [Ionic Discord](https://chat.stenciljs.com/)
 * [Ionicons](http://ionicons.com/)
 
 
