@@ -50,7 +50,7 @@
     "jest": "^28.1.0",
     "np": "^8.0.2",
     "prettier": "2.8.8",
-    "replace-in-file": "^6.1.0",
+    "replace-in-file": "^7.0.1",
     "rollup": "^3.21.2",
     "sisteransi": "^1.0.5",
     "terser": "^5.17.1",
