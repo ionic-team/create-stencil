@@ -10,9 +10,7 @@ export function downloadStarter(starter: Starter) {
 function downloadFromURL(url: string): Promise<Buffer> {
   const options = Url.parse(url);
   if (process.env['https_proxy']) {
-    // @ts-ignore
-    const agent = new HttpsProxyAgentModule.default(process.env.https_proxy);
-    // @ts-ignore
+    const agent = new HttpsProxyAgentModule.default(process.env['https_proxy']);
     options.agent = agent;
   }
   return new Promise((resolve, reject) => {
