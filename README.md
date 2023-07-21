@@ -1,6 +1,7 @@
 # The create-stencil CLI
 
 create-stencil is a CLI for creating new Stencil projects based on predefined templates, or "starters".
+It is the official CLI maintained by the Stencil team, and is recommended for all new projects.
 
 ## Prerequisites
 
