@@ -125,7 +125,7 @@ function validateProjectName(projectName: string) {
 }
 
 /**
- * Helper for performing for running through the necessary steps to create a git repository for a new project
+ * Helper for performing the necessary steps to create a git repository for a new project
  * @param directory the name of the new project's directory
  * @returns true if no issues were encountered, false otherwise
  */
