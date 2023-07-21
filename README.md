@@ -13,11 +13,11 @@ For instructions for installing or upgrading npm, please see the [npm Documentat
 The create-stencil CLI offers the following starters for bootstrapping your project:
 
 - `component` - allows one to spin up a component library containing one or more Stencil components. Best suited for
-teams/individuals looking to reuse components across one or more applications. ([Source Code](https://github.com/ionic-team/stencil-component-starter)
+teams/individuals looking to reuse components across one or more applications. ([Source Code](https://github.com/ionic-team/stencil-component-starter))
 - `app` - allows one to spin up an application, complete with routing. This is a **community-driven** project,
-and is not formally owned by the Stencil team. ([Source Code](https://github.com/stencil-community/stencil-ionic-starter)
-- `ionic-pwa` - allows one to spin up an Ionic PWA, complete with tabs layout and routing. This is a **community-driven** project,
 and is not formally owned by the Stencil team. ([Source Code](https://github.com/stencil-community/stencil-app-starter))
+- `ionic-pwa` - allows one to spin up an Ionic PWA, complete with tabs layout and routing. This is a **community-driven** project,
+and is not formally owned by the Stencil team. ([Source Code](https://github.com/stencil-community/stencil-ionic-starter))
 
 ## Usage
 
