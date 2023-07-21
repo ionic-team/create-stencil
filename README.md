@@ -21,17 +21,17 @@ and is not formally owned by the Stencil team. ([Source Code](https://github.com
 
 ## Usage
 
-The create-stencil CLI can be run in one of two modes - interactive mode or command mode.
+The create-stencil CLI can be run in one of two modes - Interactive Mode or Command Mode.
 
-### Interactive mode
+### Interactive Mode
 
-Interactive mode allows a user to interactively select options for creating a new Stencil project.
-create-stencil can be started in interactive mode by running:
+Interactive Mode allows a user to interactively select options for creating a new Stencil project.
+create-stencil can be started in Interactive Mode by running:
 ```console
 $ npm init stencil
 ```
 
-Running the CLI in interactive mode on your machine will ask you which starter you'd like to use:
+Running the CLI in Interactive Mode on your machine will ask you which starter you'd like to use:
 ```console
 $ npm init stencil
 
@@ -82,11 +82,11 @@ In this example, new component library starter will have been created in a newly
   Happy coding! 🎈
 ```
 
-### Command mode
+### Command Mode
 
-Command mode allows you to create a new Stencil project by specifying all project options upfront.
+Command Mode allows you to create a new Stencil project by specifying all project options upfront.
 
-To run the CLI in Command mode, a starter and project name must be specified:
+To run the CLI in Command Mode, a starter and project name must be specified:
 ```
 npm init stencil [starter] [project-name]
 ```
