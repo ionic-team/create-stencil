@@ -1,7 +1,7 @@
 import { get } from 'https';
 import * as Url from 'url';
 import { Starter } from './starters';
-import {HttpsProxyAgent} from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 export function downloadStarter(starter: Starter) {
   return downloadFromURL(`https://github.com/${starter.repo}/archive/main.zip`);
