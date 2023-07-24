@@ -1,12 +1,13 @@
 import { Spinner } from 'cli-spinner';
 import fs from 'fs';
 import { join } from 'path';
-import { bold, cyan, dim, green } from 'colorette';
+import { bold, cyan, dim, green, yellow } from 'colorette';
 import { downloadStarter } from './download';
 import { Starter } from './starters';
 import { unZipBuffer } from './unzip';
 import { npm, onlyUnix, printDuration, setTmpDirectory, terminalPrompt } from './utils';
 import { replaceInFile } from 'replace-in-file';
+import { commitAllFiles, hasGit, inExistingGitTree, initGit } from './git';
 
 const starterCache = new Map<Starter, Promise<undefined | ((name: string) => Promise<void>)>>();
 
@@ -34,10 +35,20 @@ export async function createApp(starter: Starter, projectName: string, autoRun: 
   loading.stop(true);
 
   const time = printDuration(Date.now() - startT);
-  console.log(`${green('✔')} ${bold('All setup')} ${onlyUnix('🎉')} ${dim(time)}
+  let didGitSucceed = initGitForStarter(projectName);
 
+  if (didGitSucceed) {
+    console.log(`${green('✔')} ${bold('All setup')} ${onlyUnix('🎉')} ${dim(time)}`);
+  } else {
+    // an error occurred setting up git for the project. log it, but don't block creating the project
+    console.log(`${yellow('❗')} We were unable to ensure git was configured for this project.`);
+    console.log(`${green('✔')} ${bold('However, your project was still created')} ${onlyUnix('🎉')} ${dim(time)}`);
+  }
+
+  // newline here is intentional in relation to the previous logged statements
+  console.log(`
   ${dim('We suggest that you begin by typing:')}
-
+  
   ${dim(terminalPrompt())} ${green('cd')} ${projectName}
   ${dim(terminalPrompt())} ${green('npm install')}
   ${dim(terminalPrompt())} ${green('npm start')}
@@ -111,4 +122,45 @@ async function prepare(starter: Starter) {
 
 function validateProjectName(projectName: string) {
   return !/[^a-zA-Z0-9-]/.test(projectName);
+}
+
+/**
+ * Helper for performing the necessary steps to create a git repository for a new project
+ * @param directory the name of the new project's directory
+ * @returns true if no issues were encountered, false otherwise
+ */
+const initGitForStarter = (directory: string): boolean => {
+  if (!changeDir(directory) || !hasGit()) {
+    // we failed to swtich to the directory to check/create the repo
+    // _or_ we didn't have `git` on the path
+    return false;
+  }
+
+  if (inExistingGitTree()) {
+    // we're already in a git tree, don't attempt to create one
+    return true;
+  }
+
+  if (!initGit()) {
+    // we failed to create a new git repo
+    return false;
+  }
+
+  return commitAllFiles();
+};
+
+/**
+ * Helper method for switching to a new directory on disk
+ * @param moveTo the directory name to switch to
+ * @returns true if the switch occurred successfully, false otherwise
+ */
+export function changeDir(moveTo: string): boolean {
+  let wasSuccess = false;
+  try {
+    process.chdir(moveTo);
+    wasSuccess = true;
+  } catch (err: unknown) {
+    console.error(err);
+  }
+  return wasSuccess;
 }
