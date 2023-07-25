@@ -1,7 +1,7 @@
 import { get } from 'https';
 import * as Url from 'url';
 import { Starter } from './starters';
-import * as HttpsProxyAgentModule from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 export function downloadStarter(starter: Starter) {
   return downloadFromURL(`https://github.com/${starter.repo}/archive/main.zip`);
@@ -10,8 +10,7 @@ export function downloadStarter(starter: Starter) {
 function downloadFromURL(url: string): Promise<Buffer> {
   const options = Url.parse(url);
   if (process.env['https_proxy']) {
-    // @ts-ignore
-    const agent = new HttpsProxyAgentModule.default(process.env.https_proxy);
+    const agent = new HttpsProxyAgent(process.env['https_proxy']);
     // @ts-ignore
     options.agent = agent;
   }
