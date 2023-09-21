@@ -11,12 +11,33 @@ export function downloadStarter(starter: Starter) {
   return downloadFromURL(starterUrl);
 }
 
+/**
+ * Build a URL to retrieve a starter template from a GitHub instance
+ *
+ * This function assumes that the starter will always be in a GitHub instance, as it returns a URL in string form that
+ * is specific to GitHub.
+ *
+ * @param starter metadata for the starter template to build a URL for
+ * @returns the generated URL to pull the template from
+ */
 export function getStarterUrl(starter: Starter): string {
   return new URL(`${starter.repo}/archive/main.zip`, getGitHubUrl()).toString();
 }
 
+/**
+ * Retrieve the URL for the GitHub instance to pull the starter template from
+ *
+ * This function searches for the following environment variables (in order), using the first one that is found:
+ * 1. npm_config_stencil_self_hosted_url
+ * 2. stencil_self_hosted_url
+ * 3. None - default to the publicly available GitHub instance
+ *
+ * @returns the URL for GitHub
+ */
 export function getGitHubUrl(): string {
-  return 'https://github.com/';
+  return (
+    process.env['stencil_self_hosted_url'] ?? process.env['npm_config_stencil_self_hosted_url'] ?? 'https://github.com/'
+  );
 }
 
 function getRequestOptions(starter: string | Starter) {

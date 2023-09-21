@@ -32,10 +32,57 @@ describe('download', () => {
 
       expect(getStarterUrl(starter)).toBe(`https://github.com/${repo}/archive/main.zip`);
     });
+
+    describe('self-hosted url', () => {
+      afterEach(() => {
+        delete process.env['npm_config_stencil_self_hosted_url'];
+        delete process.env['stencil_self_hosted_url'];
+      });
+
+      it.each(['https://ionic.io/', 'https://ionic.io'])(
+        "returns a well formed self-hosted URL '(%s)' when npm_config_stencil_self_hosted_url is set",
+        (selfHostedUrl) => {
+          process.env['npm_config_stencil_self_hosted_url'] = selfHostedUrl;
+
+          expect(getGitHubUrl()).toBe(selfHostedUrl);
+        },
+      );
+
+      it.each(['https://ionic.io/', 'https://ionic.io'])(
+        "returns a well formed self-hosted URL '(%s)' when stencil_self_hosted_url is set",
+        (selfHostedUrl) => {
+          process.env['stencil_self_hosted_url'] = selfHostedUrl;
+
+          expect(getGitHubUrl()).toBe(selfHostedUrl);
+        },
+      );
+
+      it('uses stencil_self_hosted_url over npm_config_stencil_self_hosted_url', () => {
+        const npmConfigUrl = 'https://ionic.io/opt-1';
+
+        process.env['stencil_self_hosted_url'] = npmConfigUrl;
+        process.env['npm_config_stencil_self_hosted_url'] = 'https://ionic.io/opt-2';
+
+        expect(getGitHubUrl()).toBe(npmConfigUrl);
+      });
+    });
   });
 
   describe('getGitHubUrl', () => {
-    it('returns the default GitHub host', () => {
+    describe('self-hosted url', () => {
+      afterEach(() => {
+        delete process.env['stencil_self_hosted_url'];
+      });
+
+      it('returns a self-hosted url when one is provided', () => {
+        const mockSelfHostedUrl = 'https://ionic.io/';
+        process.env['stencil_self_hosted_url'] = mockSelfHostedUrl;
+
+        expect(getGitHubUrl()).toBe(mockSelfHostedUrl);
+      });
+    });
+
+    it('returns the default GitHub host when no self-hosted option is provided', () => {
       expect(getGitHubUrl()).toBe('https://github.com/');
     });
   });
