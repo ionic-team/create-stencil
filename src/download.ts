@@ -6,6 +6,19 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 const STARTER_URL = 'https://github.com/%s/archive/main.zip';
 
+export function downloadStarter(starter: Starter) {
+  const starterUrl = getStarterUrl(starter);
+  return downloadFromURL(starterUrl);
+}
+
+export function getStarterUrl(starter: Starter): string {
+  return new URL(`${starter.repo}/archive/main.zip`, getGitHubUrl()).toString();
+}
+
+export function getGitHubUrl(): string {
+  return 'https://github.com/';
+}
+
 function getRequestOptions(starter: string | Starter) {
   const url = typeof starter === 'string' ? starter : format(STARTER_URL, starter.repo);
   const options: RequestOptions = Url.parse(url);
