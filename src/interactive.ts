@@ -1,6 +1,7 @@
 import { prompt } from 'prompts';
 import { cursor, erase } from 'sisteransi';
 import { dim } from 'colorette';
+import { verifyStarterExists } from './download';
 import { createApp, prepareStarter } from './create-app';
 import { STARTERS, Starter, getStarterRepo } from './starters';
 
@@ -18,6 +19,12 @@ export async function runInteractive(starterName: string | undefined, autoRun: b
     starterName = await askStarterName();
   }
   const starter = getStarterRepo(starterName);
+
+  // verify that the starter exists
+  const starterExist = await verifyStarterExists(starter);
+  if (!starterExist) {
+    throw new Error(`Starter template "${starter.repo}" not found`);
+  }
 
   // start downloading in the background
   prepareStarter(starter);
