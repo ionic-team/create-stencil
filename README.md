@@ -98,7 +98,7 @@ An example of creating a component starter with the name "my-stencil-library" is
 ```
 npm init stencil component my-stencil-library
 ```
-In the example above, new [component library starter](#starters) will have been created in a newly created `my-stencil-library` directory.
+In the example above, a new [component library starter](#starters) will have been created in a newly created `my-stencil-library` directory.
 
 In addition to the provided template options, users may choose to use one of their own templates.
 The template must by hosted on a public GitHub instance to use this feature.
