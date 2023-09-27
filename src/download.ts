@@ -1,4 +1,4 @@
-import { get, request, type RequestOptions, type Agent } from 'https';
+import { get, request, type RequestOptions } from 'https';
 import { format } from 'util';
 import * as Url from 'url';
 import { Starter } from './starters';
