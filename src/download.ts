@@ -20,8 +20,8 @@ export function getStarterUrl(starter: Starter): string {
  * Retrieve the URL for the GitHub instance to pull the starter template from
  *
  * This function searches for the following environment variables (in order), using the first one that is found:
- * 1. npm_config_stencil_self_hosted_url
- * 2. stencil_self_hosted_url
+ * 1. stencil_self_hosted_url
+ * 2. npm_config_stencil_self_hosted_url
  * 3. None - default to the publicly available GitHub instance
  *
  * @returns the URL for GitHub
