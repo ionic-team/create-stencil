@@ -19,6 +19,9 @@ and is not formally owned by the Stencil team. ([Source Code](https://github.com
 - `ionic-pwa` - allows one to spin up an Ionic PWA, complete with tabs layout and routing. This is a **community-driven** project,
 and is not formally owned by the Stencil team. ([Source Code](https://github.com/stencil-community/stencil-ionic-starter))
 
+The CLI can also generate projects using starters that are not officially developed by Ionic or the Stencil Community.
+See the documentation for [Command Mode](#command-mode) for additional information on using additional templates.
+
 ## Usage
 
 The create-stencil CLI can be run in one of two modes - Interactive Mode or Command Mode.
@@ -31,7 +34,7 @@ create-stencil can be started in Interactive Mode by running:
 $ npm init stencil
 ```
 
-Running the CLI in Interactive Mode on your machine will ask you which starter you'd like to use:
+Running the CLI in Interactive Mode will prompt you to select one of the [available starters](#starters) to use:
 ```console
 $ npm init stencil
 
@@ -51,7 +54,7 @@ Followed by a name for your new project:
 ```
 
 After confirming your selections, your project will be created.
-In this example, new component library starter will have been created in a newly created `my-stencil-library` directory:
+In this example, a new [component library starter](#starters) will have been copied into a newly created `my-stencil-library` directory:
 ```console
 ✔ Confirm? … yes
 ✔ All setup  in 29 ms
@@ -86,7 +89,7 @@ In this example, new component library starter will have been created in a newly
 
 Command Mode allows you to create a new Stencil project by specifying all project options upfront.
 
-To run the CLI in Command Mode, a starter and project name must be specified:
+To run the CLI in Command Mode, a [starter](#starters) and project name must be specified:
 ```
 npm init stencil [starter] [project-name]
 ```
@@ -95,7 +98,17 @@ An example of creating a component starter with the name "my-stencil-library" is
 ```
 npm init stencil component my-stencil-library
 ```
-In the example above, new component library starter will have been created in a newly created `my-stencil-library` directory:
+In the example above, a new [component library starter](#starters) will have been created in a newly created `my-stencil-library` directory.
+
+In addition to the provided template options, users may choose to use one of their own templates.
+The template must by hosted on a public GitHub instance to use this feature.
+
+To use a custom starter template, provide the GitHub repository owner and repository name as your project's starter name, using the format `REPO_OWNER/REPO_NAME`.
+For example, to retrieve a template that is owned by the 'my-organization' that has the name 'my-stencil-template', the following may be used:
+```
+npm init stencil my-organization/my-stencil-template my-stencil-library
+```
+The command above will create a copy of the `my-organization/my-stencil-template` repository, and place it under `my-stencil-library` on disk.
 
 ### Additional Flags
 
