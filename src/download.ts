@@ -1,15 +1,7 @@
 import { get, request, type RequestOptions } from 'https';
-import { format } from 'util';
 import * as Url from 'url';
 import { Starter } from './starters';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-
-const STARTER_URL = 'https://github.com/%s/archive/main.zip';
-
-export function downloadStarter(starter: Starter) {
-  const starterUrl = getStarterUrl(starter);
-  return downloadFromURL(starterUrl);
-}
 
 /**
  * Build a URL to retrieve a starter template from a GitHub instance
@@ -41,7 +33,7 @@ export function getGitHubUrl(): string {
 }
 
 function getRequestOptions(starter: string | Starter) {
-  const url = typeof starter === 'string' ? starter : format(STARTER_URL, starter.repo);
+  const url = typeof starter === 'string' ? starter : getStarterUrl(starter);
   const options: RequestOptions = Url.parse(url);
   if (process.env['https_proxy']) {
     const agent = new HttpsProxyAgent(process.env['https_proxy']);
