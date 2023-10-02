@@ -100,15 +100,17 @@ npm init stencil component my-stencil-library
 ```
 In the example above, a new [component library starter](#starters) will have been created in a newly created `my-stencil-library` directory.
 
-In addition to the provided template options, users may choose to use one of their own templates.
-The template must by hosted on a public GitHub instance to use this feature.
+#### Custom Templates
+In addition to the provided template options, users may choose to use one of their own custom templates hosted on [GitHub.com](https://github.com).
 
-To use a custom starter template, provide the GitHub repository owner and repository name as your project's starter name, using the format `REPO_OWNER/REPO_NAME`.
-For example, to retrieve a template that is owned by the 'my-organization' that has the name 'my-stencil-template', the following may be used:
+To use a custom starter template, provide the GitHub repository owner and repository name as the starter name, using the format `REPO_OWNER/REPO_NAME`.
+For example, to retrieve a template that is owned by 'my-organization' that has the name 'my-stencil-template':
 ```
 npm init stencil my-organization/my-stencil-template my-stencil-library
 ```
 The command above will create a copy of the `my-organization/my-stencil-template` repository, and place it under `my-stencil-library` on disk.
+
+This can be used in conjunction with [Self Hosted GitHub Instances](#stencilselfhostedurl) to use custom starter templates that live on a self-hosted GitHub instance.
 
 ### Additional Flags
 
@@ -139,6 +141,32 @@ Stencil uses [https-proxy-agent](https://github.com/TooTallNate/proxy-agents/tre
 under the hood to connect to the specified proxy server.
 The value provided for `https_proxy` will be passed directly to the constructor for a new
 [`HttpsProxyAgent` instance](https://github.com/TooTallNate/proxy-agents/tree/main/packages/https-proxy-agent#api).
+
+#### `stencil_self_hosted_url`
+
+In some scenarios, teams may find themselves working solely out of a self-hosted GitHub instance.
+
+Users wishing to point the create-stencil CLI at a GitHub instance other than [GitHub](https://github.com) have two options:
+
+1. Set `stencil_self_hosted_url` in your `.npmrc` file, like so:
+    ```
+    // .npmrc
+    stencil_self_hosted_url=https://your_self_hosted_github_repo.com/
+    ```
+
+    Using this option, the CLI can be called as such, automatically picking up the value in `stencil_self_hosted_url`:
+    ```
+    npm init stencil [starter] [project-name]
+    ```
+
+2. Set [`stencil_self_hosted_url`](#stencilselfhostedurl) at invocation time:
+    ```console
+    stencil_self_hosted_url=https://your_self_hosted_github_repo.com/ npm init stencil
+    ```
+   
+    When using this option, `stencil_self_hosted_url` must always be set every time the CLI is called.
+
+When both options are set, the value provided on the command line takes precedence over the value in your `.npmrc` file.
 
 ## Citations
 
