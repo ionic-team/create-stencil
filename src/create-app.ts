@@ -115,6 +115,9 @@ async function prepare(starter: Starter) {
       files: [join(filePath, '*'), join(filePath, 'src/*')],
       from: /stencil-starter-project-name/g,
       to: projectName,
+      glob: {
+        windowsPathsNoEscape: true,
+      },
     });
     setTmpDirectory(null);
   };
