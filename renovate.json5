@@ -50,7 +50,12 @@
     {
       matchPackageNames: ['rollup'],
       matchPackagePrefixes: ['@rollup'],
-      groupName: 'rollup,'
+      groupName: 'rollup'
+    },
+    {
+      // group these two, as they may rely on one another during major version bumps
+      matchPackageNames: ['actions/download-artifact', 'actions/upload-artifact'],
+      groupName: 'Download + Upload Artifacts',
     }
   ],
   // Never rebase the branch or update it unless manually requested to avoid noisy PR emails
