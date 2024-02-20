@@ -56,7 +56,7 @@
     "terser": "^5.17.1",
     "ts-jest": "^29.0.0",
     "typescript": "~5.0.0",
-    "yauzl": "^2.10.0"
+    "yauzl": "^3.0.0"
   },
   "author": "Ionic Team & William M. Riley",
   "license": "MIT",
