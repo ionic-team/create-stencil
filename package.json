@@ -1,6 +1,6 @@
 {
   "name": "create-stencil",
-  "version": "3.5.5",
+  "version": "3.5.6",
   "description": "Quickly create a new stencil component project: npm init stencil",
   "repository": {
     "type": "git",
@@ -72,6 +72,6 @@
   "prettier": "@ionic/prettier-config",
   "volta": {
     "node": "20.12.2",
-    "npm": "10.5.2"
+    "npm": "10.6.0"
   }
 }
